@@ -10,6 +10,7 @@
   --font-display: "Anton", sans-serif;
   --font-sans: "Manrope", system-ui, sans-serif;
   --font-arabic: "Mirza", serif;
+  --font-naskh: "Noto Naskh Arabic", serif;
 }
 
 @layer base {

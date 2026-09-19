@@ -96,18 +96,19 @@ const faqItems = [
 
 <Base title="Académie de management" description={site.founder.bio} locale={locale} routeKey="home" ctaHref="#formulaire-appel" ctaLabel="Réserver un appel">
   <!-- Hero -->
-  <section class="relative overflow-hidden border-b border-white/10 px-5 pb-16 pt-10 sm:px-8 sm:pb-24 sm:pt-14">
+  <section class="relative overflow-hidden border-b border-white/10 px-5 pb-16 pt-5 sm:px-8 sm:pb-24 sm:pt-5">
     <div
       class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[min(780px,88vw)] w-[min(780px,88vw)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
       style="background:radial-gradient(circle,rgba(46,230,166,0.22) 0%,transparent 62%)"
     ></div>
     <div class="mx-auto max-w-[1320px] text-center">
       <div
-        class="animate-labeeb-up font-arabic text-[clamp(46px,15vw,96px)] leading-[0.94] sm:text-[min(13vh,125px)]"
+        class="animate-labeeb-up font-amiri text-[clamp(46px,15vw,96px)] leading-[0.94] sm:text-[min(13vh,125px)]"
         dir="rtl"
         style="color:#F3EFE6"
       >
-        لبيـــب
+        لَبِيـــــب
+        
       </div>
       <div
         class="animate-labeeb-up mt-1 text-[10px] font-bold uppercase tracking-[0.32em] sm:text-[clamp(10px,1vw,13px)] sm:tracking-[0.58em]"
@@ -205,7 +206,7 @@ const faqItems = [
 
   <!-- Pourquoi / Comment: full-width toggle on mobile, hover-expand sliver split from sm: up.
        "Comment" dominant by default on both. -->
-  <section class="pc-split border-b border-white/10 sm:h-[700px]" data-pc-active="b">
+  <section class="pc-split border-b border-white/10 sm:h-[600px]" data-pc-active="b">
     <div class="flex border-b border-white/10 bg-bg sm:hidden">
       <button type="button" data-pc-toggle="a" aria-pressed="false" class="flex-1 border-b-2 border-transparent py-4 text-center text-[11px] font-bold uppercase tracking-[0.28em] text-white/50 transition-colors data-[active=true]:border-acc data-[active=true]:text-white">
         Pourquoi
@@ -320,8 +321,8 @@ const faqItems = [
               <img
                 src={t.image.src}
                 alt={t.name}
-                class="h-full w-full object-cover transition-all duration-700 hover:grayscale-0 hover:scale-[1.06]"
-                style={`object-position:${t.pos};filter:grayscale(1) brightness(0.9)`}
+                class="h-full w-full object-cover grayscale brightness-90 transition-all duration-700 hover:grayscale-0 hover:scale-[1.06]"
+                style={`object-position:${t.pos}`}
               />
             </div>
             <div>
