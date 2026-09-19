@@ -1,0 +1,206 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { consulting } from '../data/services.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const topics = [
+  { title: 'Offre & positionnement', body: "Clarifier ce que vous vendez, à qui, et pourquoi on devrait vous choisir plutôt qu'un autre." },
+  { title: 'Tarification', body: 'Revoir une grille de prix qui ne suit plus vos coûts ou votre positionnement.' },
+  { title: 'Organisation & délégation', body: "Un point précis de votre organigramme : un rôle flou, une délégation qui ne tient pas." },
+  { title: 'Recrutement', body: "Un poste à ouvrir, une grille d'entretien, un doute sur un candidat." },
+  { title: 'Profilage DISC ciblé', body: "Le profil d'un candidat ou d'un collaborateur, appliqué à une décision précise." },
+  { title: "Décision d'investissement", body: 'Un arbitrage chiffré avant un achat, une embauche ou un lancement.' }
+];
+
+const steps = [
+  { n: '01', title: 'Vous décrivez le sujet', body: "Deux ou trois phrases dans le formulaire. L'expert prépare la session sur ce point précis." },
+  { n: '02', title: '90 minutes en direct', body: 'Visioconférence ou en personne à Constantine. On travaille sur votre cas, pas sur un exemple.' },
+  { n: '03', title: 'Un compte-rendu écrit', body: 'Ce qui a été décidé, envoyé sous 48 heures, avec les actions et leurs échéances.' },
+  { n: '04', title: 'Un suivi si besoin', body: "Possibilité d'enchaîner sur un accompagnement ou une deuxième session." }
+];
+
+const gains = [
+  { n: '01', title: 'Un avis extérieur', body: "Un regard qui n'a pas vos habitudes ni vos angles morts." },
+  { n: '02', title: 'Une décision prise', body: 'Vous repartez avec un choix tranché, pas avec des options supplémentaires.' },
+  { n: '03', title: 'Un plan écrit', body: 'Les actions, les échéances, ce qui doit changer dès la semaine suivante.' },
+  { n: '04', title: 'Un contact direct', body: "La possibilité d'écrire à l'expert si une question se pose en appliquant." }
+];
+
+const faqItems = [
+  { q: 'La session remplace-t-elle un accompagnement complet ?', a: "Non. C'est un format ponctuel pour une décision précise. Pour un sujet qui demande plusieurs semaines de travail, parlez-nous de l'accompagnement ou du mastermind." },
+  { q: 'Puis-je réserver plusieurs sessions ?', a: 'Oui, sur des sujets différents ou pour un suivi. Beaucoup de dirigeants reviennent tous les deux ou trois mois.' },
+  { q: 'La session se fait-elle en français ou en arabe ?', a: "Dans les deux, selon votre préférence et celle de l'expert disponible." },
+  { q: 'Le contenu est-il confidentiel ?', a: 'Oui. Ce qui est dit pendant la session et écrit dans le compte-rendu reste entre vous et Labeeb Academy.' },
+  { q: 'Que se passe-t-il si je dois annuler ?', a: 'Prévenez au moins 24 heures avant pour reprogrammer sans frais.' }
+];
+
+const roleOptions = ['Fondateur / propriétaire', 'Directeur général', 'Cadre dirigeant', 'Responsable recrutement', 'Autre'];
+const sujetOptions = ['Offre & positionnement', 'Tarification', 'Organisation & délégation', 'Recrutement', "Profilage DISC d'un poste ou d'un candidat", "Décision d'investissement", 'Autre sujet'];
+const editionOptions = ['En visioconférence', 'En personne — Constantine', 'Peu importe'];
+
+const fields = [
+  { name: 'nom', label: 'Nom complet', type: 'text', required: true, placeholder: 'Prénom et nom' },
+  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'vous@entreprise.dz' },
+  { name: 'telephone', label: 'Numéro', type: 'tel', required: true, placeholder: '+213 …' },
+  { name: 'entreprise', label: 'Entreprise', type: 'text', required: false, placeholder: 'Raison sociale' },
+  { name: 'role', label: 'Rôle', type: 'select', required: false, options: roleOptions },
+  { name: 'sujet', label: 'Sujet de la session', type: 'select', required: true, options: sujetOptions },
+  { name: 'edition', label: 'Format souhaité', type: 'select', required: false, options: editionOptions },
+  { name: 'note', label: 'Note', type: 'textarea', placeholder: 'Votre situation en deux ou trois phrases.' }
+];
+---
+
+<Base
+  title={consulting.title}
+  description={consulting.lede}
+  locale={locale}
+  routeKey="consulting"
+  ctaHref="#reserver"
+  ctaLabel="Réserver une session"
+>
+  <section class="animate-labeeb-up px-5 py-10 sm:px-8 sm:py-14">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{consulting.eyebrow}</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="font-arabic text-2xl leading-none text-acc/90" dir="rtl">{consulting.arabic}</span>
+        </div>
+        <h1 class="max-w-[16ch] font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl">
+          {consulting.title}
+        </h1>
+        <p class="mt-7 max-w-[46ch] text-base font-light leading-relaxed text-white/72 sm:text-lg">{consulting.lede}</p>
+      </div>
+      <Photo label="session de consulting individuel" class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(46,230,166,0.12) 0%,rgba(10,10,10,0) 68%)"
+  >
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que c'est</div>
+        <h2 class="max-w-[17ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-5xl">
+          Un sujet, un expert, votre cas réel
+        </h2>
+        <p class="mt-6 max-w-[48ch] font-light leading-relaxed text-white/72">
+          Pas de formation ni de programme standard : vous arrivez avec une question précise, l'expert la travaille avec vous pendant 90 minutes, et vous repartez avec une décision et un plan écrit.
+        </p>
+        <blockquote class="mt-8 max-w-[42ch] border-l border-acc/50 pl-5 text-lg font-light leading-snug text-white/85">
+          « J'avais besoin d'un avis sur ma grille de prix. En une session, j'ai changé trois tarifs et gagné de la marge dès le mois suivant. »
+        </blockquote>
+        <div class="mt-4 flex items-center gap-3 text-[13px] text-white/50">
+          <span class="font-semibold text-white">Fondatrice</span>
+          <span class="h-3 w-px bg-white/22"></span>
+          <span>Services — Constantine</span>
+        </div>
+      </div>
+      <div class="border border-white/14 bg-white/[0.035] p-7 sm:p-9">
+        <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">En pratique</div>
+        <div class="grid grid-cols-2 gap-5 text-[15px] font-semibold">
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Durée</div>90 minutes</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Format</div>Visio ou en personne</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Compte-rendu</div>Sous 48 heures</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Tarif</div>Sur devis</div>
+        </div>
+        <div class="mt-6 border-t border-white/12 pt-5 text-sm font-light leading-relaxed text-white/66">
+          Animation en français ou en arabe. Un seul sujet par session, pour aller au fond.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Les sujets les plus demandés</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">D'autres sujets sont possibles : dites-nous le vôtre dans le formulaire.</p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2 lg:grid-cols-3">
+        {topics.map((t, i) => (
+          <div class="grid grid-cols-[40px_minmax(0,1fr)] gap-4 border-t border-white/12 py-6">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="text-[17px] font-semibold leading-tight">{t.title}</h3>
+              <p class="mt-2.5 text-sm font-light leading-relaxed text-white/62">{t.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[14ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Comment ça se passe</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">De la demande à la décision écrite, en moins d'une semaine.</p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((w) => (
+          <div class="grid grid-cols-[44px_minmax(0,1fr)] gap-5 border-t border-white/12 py-6">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{w.n}</span>
+            <div>
+              <h3 class="text-[17px] font-semibold">{w.title}</h3>
+              <p class="mt-2.5 text-sm font-light leading-relaxed text-white/60">{w.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 12% 0%,rgba(46,230,166,0.1) 0%,rgba(10,10,10,0) 62%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que vous repartez avec</div>
+      <h2 class="mb-10 max-w-[19ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Une décision, pas une liste d'idées
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {gains.map((g) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{g.n}</div>
+            <h3 class="mb-2.5 text-[17px] font-semibold">{g.title}</h3>
+            <p class="text-[15px] font-light leading-relaxed text-white/68">{g.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] sm:gap-16">
+      <h2 class="max-w-[12ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Questions fréquentes</h2>
+      <Faq items={faqItems} />
+    </div>
+  </section>
+
+  <section id="reserver" class="px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <ContactForm
+        id="consulting-reservation"
+        eyebrow="Réservation"
+        eyebrowArabic="لبيـــب"
+        title="Réservez votre session"
+        lede="Décrivez votre sujet en quelques mots. Un conseiller revient vers vous avec deux créneaux disponibles."
+        bullets={[
+          'Un seul sujet, traité en profondeur',
+          'Compte-rendu écrit sous 48 heures',
+          'Contenu confidentiel'
+        ]}
+        fields={fields}
+        submitLabel="Réserver ma session"
+        note="Réponse sous 48 heures ouvrées."
+      />
+    </div>
+  </section>
+</Base>

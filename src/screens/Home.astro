@@ -4,6 +4,7 @@ import Button from '../components/Button.astro';
 import Photo from '../components/Photo.astro';
 import Faq from '../components/Faq.astro';
 import WaveBackground from '../components/WaveBackground.astro';
+import NeonArc from '../components/NeonArc.astro';
 import { images } from '../assets/index.js';
 import { site } from '../data/site.js';
 import { path } from '../i18n/utils.js';
@@ -42,7 +43,7 @@ const services = [
     body: 'Douze dirigeants, six sessions. Chaque rencontre traite un enjeu réel apporté par un membre, sous animation d\'un expert. Accès sur candidature.',
     meta: [['Groupe', '12 dirigeants'], ['Rythme', '1 session / mois']],
     cta: 'Candidater',
-    href: '#',
+    href: path('mastermind', locale),
     slot: 'Mastermind & Masterclass'
   },
   {
@@ -51,7 +52,7 @@ const services = [
     body: 'Une session privée avec un expert Labeeb sur un sujet précis : offre, tarification, organisation, recrutement. Profilage DISC inclus si utile.',
     meta: [['Format', 'Individuel'], ['Durée', '90 minutes']],
     cta: 'Réserver une session',
-    href: `${path('contact', locale)}?sujet=consulting`,
+    href: path('consulting', locale),
     slot: 'Consulting 1 to 1'
   },
   {
@@ -60,7 +61,7 @@ const services = [
     body: "Étude de marché, stratégie marketing et focus groupe : les études qui précèdent une décision d'investissement. Rejoignez la liste d'attente.",
     meta: [['Étude de marché', 'Quantitatif & terrain'], ['Focus groupe', 'Test avant lancement']],
     cta: 'Rejoindre la liste',
-    href: `${path('contact', locale)}?sujet=accompagnement`,
+    href: path('support', locale),
     slot: 'Accompagnement',
     badge: 'Bientôt'
   },
@@ -70,7 +71,7 @@ const services = [
     body: 'Le profilage DISC pour vous et votre équipe : quatre profils, un rapport individuel et un débrief avec un expert Labeeb. Le point d\'entrée le plus simple vers l\'accompagnement.',
     meta: [['Format', 'En ligne'], ['Débrief', '45 minutes']],
     cta: 'Passer le test',
-    href: '#',
+    href: path('disc', locale),
     slot: 'Test psychologique DISC'
   }
 ];
@@ -98,9 +99,10 @@ const faqItems = [
   <!-- Hero -->
   <section class="relative overflow-hidden border-b border-white/10 px-5 pb-16 pt-5 sm:px-8 sm:pb-24 sm:pt-5">
     <div
-      class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[min(780px,88vw)] w-[min(780px,88vw)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+      class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[min(520px,60vw)] w-[min(520px,60vw)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
       style="background:radial-gradient(circle,rgba(46,230,166,0.22) 0%,transparent 62%)"
     ></div>
+    
     <div class="mx-auto max-w-[1320px] text-center">
       <div
         class="animate-labeeb-up font-amiri text-[clamp(46px,15vw,96px)] leading-[0.94] sm:text-[min(13vh,125px)]"
@@ -204,9 +206,11 @@ const faqItems = [
     </p>
   </section>
 
+
   <!-- Pourquoi / Comment: full-width toggle on mobile, hover-expand sliver split from sm: up.
        "Comment" dominant by default on both. -->
   <section class="pc-split border-b border-white/10 sm:h-[600px]" data-pc-active="b">
+    
     <div class="flex border-b border-white/10 bg-bg sm:hidden">
       <button type="button" data-pc-toggle="a" aria-pressed="false" class="flex-1 border-b-2 border-transparent py-4 text-center text-[11px] font-bold uppercase tracking-[0.28em] text-white/50 transition-colors data-[active=true]:border-acc data-[active=true]:text-white">
         Pourquoi
@@ -215,6 +219,7 @@ const faqItems = [
         Comment
       </button>
     </div>
+
     <div class="pc-pane pc-pane-a relative overflow-hidden">
       <img src={images.hero2.src} alt="" class="absolute inset-0 h-full w-full object-cover" style="object-position:center 22%" />
       <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(10,10,10,0.62) 0%,rgba(10,10,10,0.86) 100%)"></div>
@@ -270,7 +275,7 @@ const faqItems = [
 
   <!-- Éprouvé sur le terrain + partners -->
   <section class="relative overflow-hidden border-b border-white/10 px-5 py-20 sm:px-8 sm:py-28">
-    <div class="pointer-events-none absolute right-[14%] top-[-22%] z-[1] h-[min(780px,86vw)] w-[min(780px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <NeonArc variant="b" class="absolute right-[8%] top-[-14%] z-[1] h-[300px] w-[440px] rotate-[20deg]" opacity={0.35} />
     <div class="relative z-[2] mx-auto max-w-[1320px]">
       <div data-reveal class="mb-14 grid gap-10 sm:grid-cols-2 sm:gap-16">
         <div>
@@ -301,7 +306,8 @@ const faqItems = [
 
   <!-- Formateurs -->
   <section class="relative overflow-hidden border-b border-white/10 px-5 py-20 sm:px-8 sm:py-28">
-    <div class="pointer-events-none absolute right-[6%] top-[-16%] z-[1] h-[min(860px,86vw)] w-[min(860px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <NeonArc variant="a" class="absolute right-[2%] top-[-10%] z-[1] h-[320px] w-[460px] rotate-[200deg]" opacity={0.35} />
+    <NeonArc variant="b" class="absolute left-[-6%] bottom-[-10%] z-[1] h-[300px] w-[420px] rotate-[80deg]" opacity={0.3} />
     <div class="relative z-[2] mx-auto max-w-[1320px]">
       <div data-reveal class="mb-14 flex flex-wrap items-end justify-between gap-9">
         <div>
@@ -317,7 +323,7 @@ const faqItems = [
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {teachers.map((t) => (
           <article data-reveal="media" class="flex flex-col gap-4.5">
-            <div class="aspect-3/4 overflow-hidden bg-white/5">
+            <div class="aspect-3/4 overflow-hidden bg-white/5 z-[100]">
               <img
                 src={t.image.src}
                 alt={t.name}
@@ -338,7 +344,8 @@ const faqItems = [
 
   <!-- Six façons d'avancer -->
   <section class="relative overflow-hidden border-b border-white/10 px-5 py-20 sm:px-8 sm:py-28">
-    <div class="pointer-events-none absolute left-[-6%] top-[22%] z-[1] h-[min(900px,86vw)] w-[min(900px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <NeonArc variant="c" class="absolute left-[-4%] top-[-12%] z-[1] h-[340px] w-[480px] -rotate-12" opacity={0.35} />
+    <NeonArc variant="a" class="absolute right-[-4%] bottom-[-8%] z-[1] h-[320px] w-[460px] rotate-[240deg]" opacity={0.3} />
     <div class="relative z-[2] mx-auto max-w-[1320px]">
       <div data-reveal class="mb-4 grid items-end gap-9 sm:grid-cols-[1.1fr_0.9fr]">
         <div>
@@ -352,10 +359,18 @@ const faqItems = [
         </p>
       </div>
 
-      {services.map((s, i) => (
+      <div data-roadmap class="relative">
+        <svg data-roadmap-svg class="pointer-events-none absolute inset-0 -z-10 hidden h-full w-full overflow-visible sm:block" aria-hidden="true"></svg>
+        {services.map((s, i) => (
         <article class="grid min-h-[min(88vh,860px)] items-stretch gap-10 border-t border-white/10 py-12 sm:grid-cols-2 sm:gap-16 sm:py-14">
-          <div data-reveal="media" class:list={{ 'sm:order-2': i % 2 === 1 }}>
-            <Photo label={s.slot} class="h-full min-h-[min(72vh,700px)] border border-white/10 bg-white/5" />
+          <div data-reveal="media" class:list={['relative z-[100]', { 'sm:order-2': i % 2 === 1 }]}>
+            <Photo label={s.slot} class="h-full min-h-[min(72vh,700px)] border border-white/10 !bg-[#141414]" />
+            <!-- roadmap node: sits at the image's exact center; the JS-drawn curve links it to the next one -->
+            <span
+              data-roadmap-dot
+              class="pointer-events-none absolute left-1/2 top-1/2 -z-10 hidden h-[11px] w-[11px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-acc sm:block"
+              style="box-shadow:0 0 8px 2px rgba(46,230,166,0.85),0 0 26px 8px rgba(46,230,166,0.4)"
+            ></span>
           </div>
           <div data-reveal class:list={['flex flex-col justify-center', i % 2 === 1 ? 'sm:order-1' : '']}>
             <div class="mb-5 flex items-baseline gap-5">
@@ -378,7 +393,8 @@ const faqItems = [
             </a>
           </div>
         </article>
-      ))}
+        ))}
+      </div>
     </div>
   </section>
 
@@ -487,7 +503,7 @@ const faqItems = [
 
   <!-- Voice testimonials -->
   <section class="relative overflow-hidden border-b border-white/10 px-5 pb-8 pt-20 sm:px-8 sm:pt-28">
-    <div class="pointer-events-none absolute left-[4%] top-[-14%] z-[1] h-[min(900px,86vw)] w-[min(900px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <NeonArc variant="b" class="absolute left-[2%] top-[-8%] z-[1] h-[320px] w-[460px] rotate-[100deg]" opacity={0.35} />
     <div class="relative z-[2] mx-auto max-w-[1320px]">
       <div data-reveal class="mb-2 grid items-end gap-9 sm:grid-cols-[1.1fr_0.9fr]">
         <div>
@@ -545,7 +561,8 @@ const faqItems = [
 
   <!-- FAQ -->
   <section class="relative overflow-hidden px-5 py-20 sm:px-8 sm:py-28">
-    <div class="pointer-events-none absolute bottom-[-12%] right-[2%] z-[1] h-[min(820px,86vw)] w-[min(820px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <NeonArc variant="c" class="absolute left-[-4%] top-[-10%] z-[1] h-[280px] w-[400px] rotate-[10deg]" opacity={0.3} />
+    <NeonArc variant="a" class="absolute bottom-[-6%] right-[-2%] z-[1] h-[300px] w-[440px] rotate-[250deg]" opacity={0.35} />
     <div class="relative z-[2] mx-auto max-w-[1000px]">
       <div class="mb-11">
         <div class="mb-4.5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Questions fréquentes</div>

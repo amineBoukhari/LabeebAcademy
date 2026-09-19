@@ -1,0 +1,50 @@
+---
+/**
+ * Thin glowing line — the site's background decoration motif.
+ * Fades to transparent at both ends (gradient stroke, not a flat color) so it
+ * reads as a fragment of a continuous line running past the frame, never a
+ * bounded shape with a visible start/end. Variant picks the curve; class
+ * positions/sizes/rotates it per section.
+ */
+const { class: className = '', variant = 'a', opacity = 0.55 } = Astro.props;
+const gradId = `neon-fade-${Math.random().toString(36).slice(2, 9)}`;
+
+// each path starts/ends past the 0–480 / 0–280 viewBox so the fade (not an edge) is what
+// terminates it visually — it should look like a glimpse of a longer line, not a drawn arc.
+const paths = {
+  a: 'M -60,240 C 80,60 300,-40 480,30 C 560,58 600,80 640,40',
+  b: 'M -40,20 C 20,160 180,230 300,180 C 400,148 440,80 520,-20',
+  c: 'M -40,280 C 80,190 90,70 210,50 C 320,32 360,120 540,10'
+};
+
+const gradCoords = {
+  a: { x1: -60, y1: 240, x2: 640, y2: 40 },
+  b: { x1: -40, y1: 20, x2: 520, y2: -20 },
+  c: { x1: -40, y1: 280, x2: 540, y2: 10 }
+};
+const g = gradCoords[variant];
+---
+
+<svg
+  class={`pointer-events-none select-none overflow-visible ${className}`}
+  style={`opacity:${opacity}`}
+  viewBox="0 0 480 280"
+  fill="none"
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <defs>
+    <linearGradient id={gradId} gradientUnits="userSpaceOnUse" x1={g.x1} y1={g.y1} x2={g.x2} y2={g.y2}>
+      <stop offset="0%" stop-color="#2EE6A6" stop-opacity="0" />
+      <stop offset="24%" stop-color="#2EE6A6" stop-opacity="0.85" />
+      <stop offset="76%" stop-color="#2EE6A6" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#2EE6A6" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+  <path
+    d={paths[variant]}
+    stroke={`url(#${gradId})`}
+    stroke-width="1.5"
+    style="filter:drop-shadow(0 0 8px rgba(46,230,166,0.55)) drop-shadow(0 0 26px rgba(46,230,166,0.3))"
+  />
+</svg>

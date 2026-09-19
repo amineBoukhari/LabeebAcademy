@@ -1,0 +1,218 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { disc } from '../data/services.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const profiles = [
+  { letter: 'D', title: 'Dominance', body: 'Direct, orienté résultats, décide vite et veut avancer.' },
+  { letter: 'I', title: 'Influence', body: 'Communicatif, entraîne les autres, préfère convaincre que contraindre.' },
+  { letter: 'S', title: 'Stabilité', body: 'Constant et fiable, a besoin de repères et de temps pour changer.' },
+  { letter: 'C', title: 'Conformité', body: 'Rigoureux, orienté qualité et process, vérifie avant de valider.' }
+];
+
+const formats = [
+  {
+    title: 'Profil individuel',
+    body: 'Un questionnaire, un rapport personnel, un débrief pour comprendre votre profil et celui des gens avec qui vous travaillez.',
+    tags: ['20 min de questionnaire', '45 min de débrief', 'FR · AR']
+  },
+  {
+    title: "Profil d'équipe & recrutement",
+    body: "Toute une équipe ou une short-list de candidats, avec une cartographie collective et une lecture orientée poste.",
+    tags: ['Effectif libre', 'Cartographie incluse', 'FR · AR']
+  },
+  {
+    title: 'Atelier de cohésion',
+    body: "Une demi-journée en présentiel pour restituer les profils à toute l'équipe et en tirer des règles de communication communes.",
+    tags: ["Jusqu'à 20 personnes", '1 demi-journée', 'Sur devis']
+  }
+];
+
+const steps = [
+  { n: '01', title: 'Le questionnaire', body: 'Vingt minutes en ligne, à votre rythme, en français ou en arabe.' },
+  { n: '02', title: 'Le rapport', body: 'Votre profil DISC détaillé, envoyé par email dès le questionnaire terminé.' },
+  { n: '03', title: 'Le débrief', body: '45 minutes avec un expert Labeeb pour comprendre ce que ça change concrètement.' },
+  { n: '04', title: 'La suite', body: "Un plan d'action, ou le passage à un consulting ou un accompagnement si besoin." }
+];
+
+const gains = [
+  { n: '01', title: 'Un recrutement plus juste', body: 'Le profil du candidat comparé à celui recherché pour le poste.' },
+  { n: '02', title: 'Une communication adaptée', body: 'Donner une consigne différemment selon la personne en face.' },
+  { n: '03', title: 'Une délégation plus fine', body: 'Confier une mission au bon profil, avec le bon niveau de cadrage.' },
+  { n: '04', title: 'Une base pour la cohésion', body: 'Un langage commun pour parler des différences dans une équipe.' }
+];
+
+const faqItems = [
+  { q: "Qu'est-ce que le DISC exactement ?", a: "Un outil de profilage comportemental à quatre dimensions, utilisé en entreprise depuis des décennies. Il ne mesure ni l'intelligence ni la personnalité au sens clinique : il décrit une façon de se comporter au travail." },
+  { q: 'Combien de temps avant de recevoir mon rapport ?', a: 'Le rapport est généré immédiatement après le questionnaire. Le débrief avec un expert se programme sous quelques jours.' },
+  { q: 'Le test a-t-il une valeur scientifique ?', a: "Le DISC est un outil reconnu en gestion et en recrutement, pas un diagnostic clinique. Il sert la communication et le management, pas un jugement de valeur." },
+  { q: 'Puis-je le faire passer à toute mon équipe ?', a: 'Oui, avec la formule équipe : chaque personne reçoit son rapport individuel, et vous recevez en plus la cartographie collective.' },
+  { q: 'Les résultats sont-ils confidentiels ?', a: "Le rapport individuel est transmis à la personne concernée. Un partage avec l'employeur se fait uniquement avec son accord, dans le cadre d'un recrutement ou d'un atelier d'équipe." }
+];
+
+const roleOptions = ['Fondateur / propriétaire', 'Directeur général', 'Cadre dirigeant', 'Responsable recrutement', 'Collaborateur', 'Autre'];
+const sujetOptions = ["Profil individuel", "Profil d'équipe (recrutement)", 'Atelier de cohésion'];
+
+const fields = [
+  { name: 'nom', label: 'Nom complet', type: 'text', required: true, placeholder: 'Prénom et nom' },
+  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'vous@entreprise.dz' },
+  { name: 'telephone', label: 'Numéro', type: 'tel', required: true, placeholder: '+213 …' },
+  { name: 'entreprise', label: 'Entreprise', type: 'text', required: false, placeholder: 'Raison sociale' },
+  { name: 'role', label: 'Rôle', type: 'select', required: false, options: roleOptions },
+  { name: 'sujet', label: 'Formule souhaitée', type: 'select', required: true, options: sujetOptions },
+  { name: 'note', label: 'Note', type: 'textarea', placeholder: "Effectif concerné, poste visé, ou toute précision utile." }
+];
+---
+
+<Base
+  title={disc.title}
+  description={disc.lede}
+  locale={locale}
+  routeKey="disc"
+  ctaHref="#test"
+  ctaLabel="Passer le test"
+>
+  <section class="animate-labeeb-up px-5 py-10 sm:px-8 sm:py-14">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{disc.eyebrow}</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="font-arabic text-2xl leading-none text-acc/90" dir="rtl">{disc.arabic}</span>
+        </div>
+        <h1 class="max-w-[16ch] font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl">
+          {disc.title}
+        </h1>
+        <p class="mt-7 max-w-[46ch] text-base font-light leading-relaxed text-white/72 sm:text-lg">{disc.lede}</p>
+      </div>
+      <Photo label="débrief DISC" class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(46,230,166,0.12) 0%,rgba(10,10,10,0) 68%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[14ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Les quatre profils</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">Chacun a les quatre dimensions à des degrés différents. Le rapport montre laquelle domine chez vous.</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {profiles.map((p) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-3xl text-acc">{p.letter}</div>
+            <h3 class="mb-2.5 text-[17px] font-semibold">{p.title}</h3>
+            <p class="text-[15px] font-light leading-relaxed text-white/68">{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Trois formules</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">Seul, en équipe, ou avec un atelier de restitution complet.</p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2 lg:grid-cols-3">
+        {formats.map((f, i) => (
+          <div class="border-t border-white/12 py-7 sm:pr-8">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-4 font-display text-2xl uppercase leading-tight">{f.title}</h3>
+            <p class="mt-3 max-w-[38ch] text-[15px] font-light leading-relaxed text-white/62">{f.body}</p>
+            <div class="mt-4 flex flex-wrap gap-4 text-[11px] font-bold uppercase tracking-[0.16em] text-white/50">
+              {f.tags.map((t) => <span>{t}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[14ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Comment ça se passe</h2>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((w) => (
+          <div class="grid grid-cols-[44px_minmax(0,1fr)] gap-5 border-t border-white/12 py-6">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{w.n}</span>
+            <div>
+              <h3 class="text-[17px] font-semibold">{w.title}</h3>
+              <p class="mt-2.5 text-sm font-light leading-relaxed text-white/60">{w.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 12% 0%,rgba(46,230,166,0.1) 0%,rgba(10,10,10,0) 62%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que ça change</div>
+      <h2 class="mb-10 max-w-[19ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Un langage commun pour l'équipe
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {gains.map((g) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{g.n}</div>
+            <h3 class="mb-2.5 text-[17px] font-semibold">{g.title}</h3>
+            <p class="text-[15px] font-light leading-relaxed text-white/68">{g.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ils l'ont utilisé</div>
+      <blockquote class="max-w-[52ch] border-l border-acc/50 pl-6 text-xl font-light leading-snug text-white/85 sm:text-2xl">
+        « Le DISC sur toute l'équipe commerciale a rendu nos recrutements bien plus justes. »
+      </blockquote>
+      <div class="mt-5 flex items-center gap-3 pl-6 text-[13px] text-white/50">
+        <span class="font-semibold text-white">Mehdi K.</span>
+        <span class="h-3 w-px bg-white/22"></span>
+        <span>Industrie — Sétif</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] sm:gap-16">
+      <h2 class="max-w-[12ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Questions fréquentes</h2>
+      <Faq items={faqItems} />
+    </div>
+  </section>
+
+  <section id="test" class="px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <ContactForm
+        id="disc-demande"
+        eyebrow="Passer le test"
+        eyebrowArabic="اختبار"
+        title="Recevez votre test DISC"
+        lede="Choisissez votre formule. Vous recevez le lien du questionnaire par email sous 24 heures."
+        bullets={[
+          'Questionnaire en 20 minutes',
+          'Rapport individuel immédiat',
+          'Débrief de 45 minutes inclus'
+        ]}
+        fields={fields}
+        submitLabel="Recevoir mon test"
+        note="Réponse sous 24 heures ouvrées."
+      />
+    </div>
+  </section>
+</Base>

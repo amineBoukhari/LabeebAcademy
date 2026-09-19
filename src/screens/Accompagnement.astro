@@ -1,0 +1,153 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Button from '../components/Button.astro';
+import { accompagnement } from '../data/services.js';
+import { path } from '../i18n/utils.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const missions = [
+  { title: 'Étude de marché', body: "Taille du marché, concurrence, prix pratiqués : les chiffres avant d'investir. Approche quantitative et terrain." },
+  { title: 'Stratégie marketing', body: "Positionnement, offre, plan d'action sur douze mois. Ce qu'il faut dire, à qui, et par quel canal." },
+  { title: 'Focus groupe', body: 'Testez une offre ou un produit sur un petit groupe de clients réels avant le lancement, pour corriger avant de dépenser.' }
+];
+
+const reasons = [
+  { n: '01', title: 'Un tarif de lancement', body: "Les premiers inscrits bénéficient d'un tarif préférentiel sur la première mission." },
+  { n: '02', title: 'Une place prioritaire', body: "Les créneaux du premier trimestre sont limités et attribués dans l'ordre d'inscription." },
+  { n: '03', title: 'Une offre construite avec vous', body: 'Votre besoin précis nous aide à cadrer le format final avant le lancement.' }
+];
+
+const faqItems = [
+  { q: 'Quand le service sera-t-il disponible ?', a: 'Le lancement est prévu dans les prochains mois. Les inscrits sur la liste sont prévenus et servis en priorité.' },
+  { q: "Est-ce que je m'engage en rejoignant la liste ?", a: "Non. L'inscription ne vous engage à rien ; vous décidez au moment où l'offre est confirmée." },
+  { q: 'Le tarif est-il déjà fixé ?', a: 'Non, il dépend du périmètre de chaque mission. Les inscrits sur liste reçoivent une grille indicative avant tout le monde.' },
+  { q: 'Puis-je démarrer un focus groupe seul, sans étude de marché ?', a: 'Oui, les trois missions sont indépendantes et peuvent être commandées séparément.' }
+];
+
+const roleOptions = ['Fondateur / propriétaire', 'Directeur général', 'Cadre dirigeant', 'Autre'];
+const sujetOptions = ['Étude de marché', 'Stratégie marketing', 'Focus groupe', 'Je ne sais pas encore'];
+
+const fields = [
+  { name: 'nom', label: 'Nom complet', type: 'text', required: true, placeholder: 'Prénom et nom' },
+  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'vous@entreprise.dz' },
+  { name: 'telephone', label: 'Numéro', type: 'tel', required: true, placeholder: '+213 …' },
+  { name: 'entreprise', label: 'Entreprise', type: 'text', required: false, placeholder: 'Raison sociale' },
+  { name: 'role', label: 'Rôle', type: 'select', required: false, options: roleOptions },
+  { name: 'sujet', label: 'Besoin principal', type: 'select', required: true, options: sujetOptions },
+  { name: 'note', label: 'Note', type: 'textarea', placeholder: 'Votre projet, en quelques phrases.' }
+];
+---
+
+<Base
+  title={accompagnement.title}
+  description={accompagnement.lede}
+  locale={locale}
+  routeKey="support"
+  ctaHref="#liste"
+  ctaLabel="Rejoindre la liste"
+>
+  <section class="animate-labeeb-up px-5 py-10 sm:px-8 sm:py-14">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{accompagnement.eyebrow}</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="rounded-full border border-white/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">Bientôt disponible</span>
+        </div>
+        <h1 class="max-w-[16ch] font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl">
+          {accompagnement.title}
+        </h1>
+        <p class="mt-7 max-w-[46ch] text-base font-light leading-relaxed text-white/72 sm:text-lg">{accompagnement.lede}</p>
+      </div>
+      <Photo label="mission d'accompagnement" class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Trois missions au lancement</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">Chaque mission est cadrée sur mesure après un entretien de départ.</p>
+      </div>
+      <div class="grid gap-8 sm:grid-cols-3">
+        {missions.map((m, i) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{String(i + 1).padStart(2, '0')}</div>
+            <h3 class="mb-2.5 text-[17px] font-semibold">{m.title}</h3>
+            <p class="text-[15px] font-light leading-relaxed text-white/68">{m.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(46,230,166,0.12) 0%,rgba(10,10,10,0) 68%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Pourquoi s'inscrire maintenant</h2>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-3">
+        {reasons.map((r) => (
+          <div class="grid grid-cols-[40px_minmax(0,1fr)] gap-4 border-t border-white/12 py-6">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{r.n}</span>
+            <div>
+              <h3 class="text-[17px] font-semibold leading-tight">{r.title}</h3>
+              <p class="mt-2.5 text-sm font-light leading-relaxed text-white/62">{r.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Besoin d'aide maintenant</div>
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-5xl">
+          En attendant, une session de consulting
+        </h2>
+        <p class="mt-6 max-w-[46ch] font-light leading-relaxed text-white/72">
+          Si votre décision ne peut pas attendre le lancement, une session de consulting 1 to 1 de 90 minutes peut déjà débloquer le sujet.
+        </p>
+        <div class="mt-8">
+          <Button href={path('consulting', locale)} variant="outline">Voir le consulting 1 to 1</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] sm:gap-16">
+      <h2 class="max-w-[12ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Questions fréquentes</h2>
+      <Faq items={faqItems} />
+    </div>
+  </section>
+
+  <section id="liste" class="px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <ContactForm
+        id="accompagnement-liste"
+        eyebrow="Liste d'attente"
+        eyebrowArabic="مواكبة"
+        title="Rejoignez la liste d'attente"
+        lede="Dites-nous quelle mission vous intéresse. Vous êtes contacté(e) en priorité au lancement, avec un tarif préférentiel."
+        bullets={[
+          'Sans engagement de votre part',
+          'Tarif de lancement réservé aux inscrits',
+          "Réponse dès l'ouverture des créneaux"
+        ]}
+        fields={fields}
+        submitLabel="Rejoindre la liste"
+        note="Vous ne recevrez aucune sollicitation avant le lancement."
+      />
+    </div>
+  </section>
+</Base>

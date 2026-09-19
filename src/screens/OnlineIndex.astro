@@ -90,7 +90,7 @@ const { locale = 'fr' } = Astro.props;
         </p>
         <div class="mt-8 flex flex-wrap gap-3.5">
           <Button href={path('contact', locale)} variant="solid">Réserver un appel</Button>
-          <Button href={`${path('home', locale)}#disc`} variant="outline">Passer le test DISC</Button>
+          <Button href={path('disc', locale)} variant="outline">Passer le test DISC</Button>
         </div>
       </div>
     </div>

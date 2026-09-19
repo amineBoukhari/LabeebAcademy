@@ -10,10 +10,10 @@ const otherLocale = locale === 'fr' ? 'ar' : 'fr';
 const services = [
   { key: 'online', label: t('nav.online'), href: path('online', locale) },
   { key: 'presential', label: t('nav.presential'), href: path('presential', locale) },
-  { key: 'mastermind', label: t('nav.mastermind'), href: '#' },
-  { key: 'consulting', label: t('nav.consulting'), href: `${path('contact', locale)}?sujet=consulting` },
-  { key: 'support', label: t('nav.support'), href: `${path('contact', locale)}?sujet=accompagnement` },
-  { key: 'disc', label: t('nav.disc'), href: '#' }
+  { key: 'mastermind', label: t('nav.mastermind'), href: path('mastermind', locale) },
+  { key: 'consulting', label: t('nav.consulting'), href: path('consulting', locale) },
+  { key: 'support', label: t('nav.support'), href: path('support', locale) },
+  { key: 'disc', label: t('nav.disc'), href: path('disc', locale) }
 ];
 
 const navLinks = [

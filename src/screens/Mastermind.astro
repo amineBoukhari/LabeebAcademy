@@ -1,0 +1,230 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import Faq from '../components/Faq.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { mastermind } from '../data/services.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const steps = [
+  { n: '01', title: 'Un membre expose son cas', body: 'Quinze à vingt minutes pour poser le contexte et la décision à prendre.' },
+  { n: '02', title: 'Le groupe challenge', body: "Chacun questionne, avec ce qu'il a vécu dans sa propre entreprise." },
+  { n: '03', title: "L'expert cadre", body: "Un expert Labeeb structure les pistes retenues et écarte les fausses bonnes idées." },
+  { n: '04', title: 'Un engagement écrit', body: 'La personne repart avec une décision et rend compte à la session suivante.' }
+];
+
+const gains = [
+  { n: '01', title: 'Un regard extérieur', body: "Douze paires d'yeux sur une décision que vous portiez seul." },
+  { n: '02', title: 'Un réseau de confiance', body: 'Des pairs qui connaissent votre dossier dans la durée, pas une rencontre unique.' },
+  { n: '03', title: 'Une décision par session', body: 'Chaque rencontre débloque un sujet concret, pas une discussion générale.' },
+  { n: '04', title: 'Un rythme d\'exigence', body: 'Rendre compte devant le groupe pousse à appliquer entre les sessions.' }
+];
+
+const formats = [
+  {
+    title: 'Le Cercle — mastermind',
+    body: 'Douze dirigeants, une session par mois pendant un an. Accès sur candidature, engagement sur les six premières sessions.',
+    tags: ['12 places', '1 session / mois', 'Sur candidature']
+  },
+  {
+    title: 'Masterclass ponctuelle',
+    body: "Une soirée ouverte sur un sujet précis, animée par un expert Labeeb. Sans candidature, pour découvrir le format avant de postuler au Cercle.",
+    tags: ['Places limitées', '1 soirée', 'Inscription simple']
+  }
+];
+
+const profil = [
+  'Dirigeant, fondateur ou cadre avec un pouvoir de décision réel dans son entreprise.',
+  "Entreprise en activité depuis au moins un an, avec une équipe à gérer.",
+  'Disponibilité et engagement sur les six sessions de la première année.',
+  'Accord de confidentialité entre tous les membres du groupe.'
+];
+
+const faqItems = [
+  { q: 'Pourquoi douze places seulement ?', a: "Au-delà, chaque participant n'a plus le temps d'exposer sa situation et d'être challengé. La contrainte est pédagogique, pas commerciale." },
+  { q: 'Comment se passe la candidature ?', a: "Un appel de trente minutes pour comprendre votre situation, puis une réponse sur l'adéquation du parcours. Sans engagement de votre part." },
+  { q: 'Quel est le tarif ?', a: "Le tarif est communiqué lors de l'appel de candidature, une fois votre situation et vos objectifs compris." },
+  { q: 'Puis-je essayer avant de candidater au Cercle ?', a: "Oui, une masterclass ponctuelle est le meilleur moyen de découvrir le format et l'animation avant de vous engager sur l'année." },
+  { q: 'Que se passe-t-il si je manque une session ?', a: "Une absence reste possible, mais l'engagement porte sur les six sessions : le groupe compte sur la présence de chacun." }
+];
+
+const roleOptions = ['Fondateur / propriétaire', 'Directeur général', 'Cadre dirigeant', 'Autre'];
+const sujetOptions = ['Industrie', 'Commerce & distribution', 'Services', 'E-commerce', 'Autre secteur'];
+
+const fields = [
+  { name: 'nom', label: 'Nom complet', type: 'text', required: true, placeholder: 'Prénom et nom' },
+  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'vous@entreprise.dz' },
+  { name: 'telephone', label: 'Numéro', type: 'tel', required: true, placeholder: '+213 …' },
+  { name: 'entreprise', label: 'Entreprise', type: 'text', required: true, placeholder: 'Raison sociale' },
+  { name: 'role', label: 'Rôle', type: 'select', required: false, options: roleOptions },
+  { name: 'sujet', label: "Secteur d'activité", type: 'select', required: false, options: sujetOptions },
+  { name: 'note', label: 'Note', type: 'textarea', placeholder: 'Le problème que vous aimeriez apporter à la première session.' }
+];
+---
+
+<Base
+  title={mastermind.title}
+  description={mastermind.lede}
+  locale={locale}
+  routeKey="mastermind"
+  ctaHref="#candidature"
+  ctaLabel="Candidater"
+>
+  <section class="animate-labeeb-up px-5 py-10 sm:px-8 sm:py-14">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{mastermind.eyebrow}</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="font-arabic text-2xl leading-none text-acc/90" dir="rtl">{mastermind.arabic}</span>
+        </div>
+        <h1 class="max-w-[16ch] font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl">
+          {mastermind.title}
+        </h1>
+        <p class="mt-7 max-w-[46ch] text-base font-light leading-relaxed text-white/72 sm:text-lg">{mastermind.lede}</p>
+      </div>
+      <Photo label="session du Cercle" class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(46,230,166,0.12) 0%,rgba(10,10,10,0) 68%)"
+  >
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que c'est</div>
+        <h2 class="max-w-[17ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-5xl">
+          Un groupe de pairs, pas une formation
+        </h2>
+        <p class="mt-6 max-w-[48ch] font-light leading-relaxed text-white/72">
+          Chaque mois, un membre apporte un enjeu réel : un associé, un recrutement, une décision d'investissement. Le groupe challenge, un expert Labeeb cadre, et la session se termine par un engagement écrit.
+        </p>
+        <blockquote class="mt-8 max-w-[42ch] border-l border-acc/50 pl-5 text-lg font-light leading-snug text-white/85">
+          « En six sessions de mastermind, j'ai réglé un problème d'associé que je repoussais depuis deux ans. »
+        </blockquote>
+        <div class="mt-4 flex items-center gap-3 text-[13px] text-white/50">
+          <span class="font-semibold text-white">Sarah L.</span>
+          <span class="h-3 w-px bg-white/22"></span>
+          <span>Agence marketing — Alger</span>
+        </div>
+      </div>
+      <div class="border border-white/14 bg-white/[0.035] p-7 sm:p-9">
+        <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">En pratique</div>
+        <div class="grid grid-cols-2 gap-5 text-[15px] font-semibold">
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Groupe</div>12 dirigeants</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Rythme</div>1 session / mois</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Durée</div>Demi-journée</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Accès</div>Sur candidature</div>
+        </div>
+        <div class="mt-6 border-t border-white/12 pt-5 text-sm font-light leading-relaxed text-white/66">
+          À Constantine, avec des sessions en ligne certains mois pour les membres éloignés.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[14ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Ce qui se passe en session</h2>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((w) => (
+          <div class="grid grid-cols-[44px_minmax(0,1fr)] gap-5 border-t border-white/12 py-6">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{w.n}</span>
+            <div>
+              <h3 class="text-[17px] font-semibold">{w.title}</h3>
+              <p class="mt-2.5 text-sm font-light leading-relaxed text-white/60">{w.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 12% 0%,rgba(46,230,166,0.1) 0%,rgba(10,10,10,0) 62%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que les membres en retirent</div>
+      <h2 class="mb-10 max-w-[19ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Une décision débloquée par mois
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {gains.map((g) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{g.n}</div>
+            <h3 class="mb-2.5 text-[17px] font-semibold">{g.title}</h3>
+            <p class="text-[15px] font-light leading-relaxed text-white/68">{g.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Deux façons d'y entrer</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">La masterclass ne demande pas de candidature ; le Cercle en demande une.</p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2">
+        {formats.map((f, i) => (
+          <div class="grid grid-cols-[44px_minmax(0,1fr)] gap-5 border-t border-white/12 py-7">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="font-display text-2xl uppercase leading-tight">{f.title}</h3>
+              <p class="mt-3 max-w-[46ch] text-[15px] font-light leading-relaxed text-white/62">{f.body}</p>
+              <div class="mt-4 flex flex-wrap gap-5 text-[11px] font-bold uppercase tracking-[0.16em] text-white/50">
+                {f.tags.map((t) => <span>{t}</span>)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Le profil recherché</div>
+      <div class="grid gap-6 sm:grid-cols-2">
+        {profil.map((p) => (
+          <div class="flex gap-3.5 border-t border-white/12 pt-5 font-light leading-relaxed text-white/72">
+            <span class="text-acc">—</span> {p}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] sm:gap-16">
+      <h2 class="max-w-[12ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Questions fréquentes</h2>
+      <Faq items={faqItems} />
+    </div>
+  </section>
+
+  <section id="candidature" class="px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <ContactForm
+        id="mastermind-candidature"
+        eyebrow="Candidature"
+        eyebrowArabic="لبيـــب"
+        title="Candidatez au Cercle"
+        lede="Parlez-nous de votre entreprise et du sujet que vous aimeriez apporter. Un conseiller revient vers vous pour un appel de trente minutes."
+        bullets={[
+          'Réponse sur candidature, sans engagement',
+          'Appel de 30 minutes avant toute décision',
+          '12 places, renouvelées une fois par an'
+        ]}
+        fields={fields}
+        submitLabel="Envoyer ma candidature"
+        note="Réponse sous 48 heures ouvrées."
+      />
+    </div>
+  </section>
+</Base>
