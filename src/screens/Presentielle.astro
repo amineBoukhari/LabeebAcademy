@@ -1,0 +1,235 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { presential } from '../data/formations.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const formats = [
+  {
+    title: 'Golden Management System — intensif',
+    body: 'Le système complet en trois jours, appliqué à votre organisation. Pour un comité de direction au complet.',
+    tags: ['3 jours', '8 à 14 personnes', 'FR · AR']
+  },
+  {
+    title: "Délégation & management d'équipe",
+    body: 'Deux jours pour vos managers intermédiaires : fiches de poste, consignes, points de contrôle.',
+    tags: ['2 jours', '6 à 12 personnes', 'FR · AR']
+  },
+  {
+    title: 'Atelier DISC & cohésion',
+    body: "Une journée : passation, cartographie de l'équipe, débriefs individuels et plan de communication interne.",
+    tags: ['1 jour', "jusqu'à 20 personnes", 'FR · AR']
+  },
+  {
+    title: 'Programme sur mesure',
+    body: 'Plusieurs sessions étalées sur un trimestre, avec suivi entre les séances. Construit module par module avec vous.',
+    tags: ['Sur devis', 'Effectif libre', 'FR · AR']
+  }
+];
+
+const roleOptions = [
+  'Fondateur / propriétaire',
+  'Directeur général',
+  'Directeur des ressources humaines',
+  'Cadre dirigeant',
+  'Responsable formation',
+  'Autre'
+];
+
+const formatOptions = [
+  'Golden Management System — intensif',
+  "Délégation & management d'équipe",
+  'Atelier DISC & cohésion',
+  'Programme sur mesure',
+  'Je ne sais pas encore'
+];
+
+const fields = [
+  { name: 'nom', label: 'Nom complet', type: 'text', required: true, placeholder: 'Prénom et nom' },
+  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'vous@entreprise.dz' },
+  { name: 'telephone', label: 'Numéro', type: 'tel', required: true, placeholder: '+213 …' },
+  { name: 'entreprise', label: 'Entreprise', type: 'text', required: true, placeholder: 'Raison sociale' },
+  { name: 'role', label: 'Rôle', type: 'select', required: false, options: roleOptions },
+  { name: 'format', label: 'Format souhaité', type: 'select', required: true, options: formatOptions },
+  { name: 'participants', label: 'Participants', type: 'number', required: false, placeholder: 'Nombre approximatif', min: 1, max: 200 },
+  { name: 'wilaya', label: 'Wilaya', type: 'text', required: false, placeholder: 'Lieu de la formation' },
+  { name: 'note', label: 'Note', type: 'textarea', placeholder: "L'enjeu principal et la période envisagée." }
+];
+---
+
+<Base
+  title={presential.title}
+  description={presential.lede}
+  locale={locale}
+  routeKey="presential"
+  ctaHref="#devis"
+  ctaLabel="Demander un devis"
+>
+  <section class="animate-labeeb-up px-5 py-10 sm:px-8 sm:py-14">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{presential.eyebrow}</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="font-arabic text-2xl leading-none text-gold/90" dir="rtl">{presential.arabic}</span>
+        </div>
+        <h1 class="max-w-[15ch] font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl">
+          {presential.title}
+        </h1>
+      </div>
+      <Photo label="session présentielle sur site" class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 pb-16 sm:px-8 sm:pb-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="grid items-center gap-8 sm:grid-cols-2 sm:gap-10">
+        <Photo label="la salle, jour 1" class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+        <div>
+          <div class="grid grid-cols-3 gap-6">
+            {presential.prevStats.slice(0, 3).map((s) => (
+              <div>
+                <div class="font-display text-3xl leading-none sm:text-4xl">{s.value}</div>
+                <div class="mt-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">{s.label}</div>
+              </div>
+            ))}
+          </div>
+          <div class="mt-8 flex flex-col gap-3.5 border-t border-white/12 pt-6 font-light text-white/70">
+            <div class="flex gap-3"><span class="text-acc">—</span> Organigramme redessiné, quatre rôles clarifiés</div>
+            <div class="flex gap-3"><span class="text-acc">—</span> Tableau de bord hebdomadaire mis en service la semaine suivante</div>
+            <div class="flex gap-3"><span class="text-acc">—</span> Profils DISC de l'ensemble du comité</div>
+          </div>
+          <blockquote class="mt-8 max-w-[40ch] border-l border-acc/50 pl-5 text-lg font-light leading-snug text-white/85">
+            « Nous avons passé trois jours sur nos propres chiffres, pas sur des cas d'école. »
+          </blockquote>
+          <div class="mt-4 flex items-center gap-3 text-[13px] text-white/50">
+            <span class="font-semibold text-white">Directeur général</span>
+            <span class="h-3 w-px bg-white/22"></span>
+            <span>Industrie — Constantine</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <Photo label="atelier" class="aspect-square border border-white/10 bg-white/[0.04]" />
+        <Photo label="tableau de travail" class="aspect-square border border-white/10 bg-white/[0.04]" />
+        <Photo label="le comité" class="aspect-square border border-white/10 bg-white/[0.04]" />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Les formats présentiels</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">Quatre formats, tous bâtis après diagnostic. La durée s'ajuste, la méthode non.</p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2">
+        {formats.map((f, i) => (
+          <div class="grid grid-cols-[44px_minmax(0,1fr)] gap-5 border-t border-white/12 py-7">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3 class="font-display text-2xl uppercase leading-tight">{f.title}</h3>
+              <p class="mt-3 max-w-[46ch] text-[15px] font-light leading-relaxed text-white/62">{f.body}</p>
+              <div class="mt-4 flex flex-wrap gap-5 text-[11px] font-bold uppercase tracking-[0.16em] text-white/50">
+                {f.tags.map((t) => <span>{t}</span>)}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(201,169,97,0.12) 0%,rgba(10,10,10,0) 68%)"
+  >
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que c'est</div>
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-5xl">
+          Une formation bâtie sur vos chiffres
+        </h2>
+        <p class="mt-6 max-w-[48ch] font-light leading-relaxed text-white/72">
+          Un expert Labeeb vient dans votre entreprise et travaille avec vos équipes sur vos propres dossiers : votre organigramme, vos marges, vos réunions. Pas de support générique, pas de cas d'école. À la fin de chaque journée, les décisions prises sont écrites et attribuées.
+        </p>
+      </div>
+      <div class="border border-white/14 bg-white/[0.035] p-7 sm:p-9">
+        <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">En pratique</div>
+        <div class="grid grid-cols-2 gap-5 text-[15px] font-semibold">
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Lieu</div>Vos locaux ou salle louée</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Durée</div>1 à 5 jours</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Groupe</div>6 à 20 personnes</div>
+          <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Tarif</div>Sur devis</div>
+        </div>
+        <div class="mt-6 border-t border-white/12 pt-5 text-sm font-light leading-relaxed text-white/66">
+          Déplacement partout en Algérie. Animation en français, en arabe ou en alternance selon le groupe.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[14ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Comment ça se passe</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">Comptez trois à quatre semaines entre votre demande et le premier jour de formation.</p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
+        {presential.what.map((w) => (
+          <div class="grid grid-cols-[44px_minmax(0,1fr)] gap-5 border-t border-white/12 py-6">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{w.n}</span>
+            <div>
+              <h3 class="text-[17px] font-semibold">{w.title}</h3>
+              <p class="mt-2.5 text-sm font-light leading-relaxed text-white/60">{w.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 12% 0%,rgba(46,230,166,0.1) 0%,rgba(10,10,10,0) 62%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que vous en retirez</div>
+      <h2 class="mb-10 max-w-[19ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Des livrables, pas un support de cours
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {presential.gains.map((g) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{g.n}</div>
+            <h3 class="mb-2.5 text-[17px] font-semibold">{g.title}</h3>
+            <p class="text-[15px] font-light leading-relaxed text-white/68">{g.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="devis" class="px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <ContactForm
+        id="presentielle-devis"
+        eyebrow="Demande de devis"
+        eyebrowArabic="لبيـــب"
+        title="Parlons de votre équipe"
+        lede="Dites-nous l'effectif, le format envisagé et l'enjeu principal. Vous recevez un programme chiffré sous 48 heures ouvrées."
+        bullets={[
+          'Diagnostic offert avant toute proposition',
+          'Déplacement partout en Algérie',
+          'Facture et convention de formation fournies'
+        ]}
+        fields={fields}
+        submitLabel="Demander un devis"
+        note="Réponse sous 48 heures ouvrées."
+      />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,15 @@
+---
+import { site } from '../data/site.js';
+import { useTranslations, path } from '../i18n/utils.js';
+
+const { locale = 'fr' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<footer class="mx-auto flex max-w-[1400px] flex-wrap items-center justify-between gap-6 border-t border-white/10 px-5 py-10 text-[12px] text-white/45 sm:px-8">
+  <span>{t('footer.place')}</span>
+  <div class="flex flex-wrap gap-5 font-semibold uppercase tracking-[0.12em]">
+    {site.social.map((s) => <a href={s.href}>{s.label}</a>)}
+    <a href={path('contact', locale)}>{t('nav.contact')}</a>
+  </div>
+</footer>

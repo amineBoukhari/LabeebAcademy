@@ -1,0 +1,100 @@
+---
+const {
+  id,
+  eyebrow,
+  eyebrowArabic,
+  title,
+  lede,
+  bullets = [],
+  fields,
+  submitLabel,
+  note,
+  ink = 'text-bg'
+} = Astro.props;
+
+const textFields = fields.filter((f) => f.type !== 'textarea');
+const areaFields = fields.filter((f) => f.type === 'textarea');
+---
+
+<div class="grid gap-10 sm:gap-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:gap-20">
+  <div>
+    <div class="mb-5 flex items-center gap-3.5">
+      <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{eyebrow}</span>
+      {eyebrowArabic && (
+        <span class="font-arabic text-xl leading-none text-gold/90" dir="rtl">{eyebrowArabic}</span>
+      )}
+    </div>
+    <h2 class="max-w-[15ch] font-display text-3xl uppercase leading-[0.98] tracking-tight sm:text-5xl">{title}</h2>
+    {lede && <p class="mt-6 max-w-[44ch] font-light leading-relaxed text-white/70">{lede}</p>}
+    {bullets.length > 0 && (
+      <div class="mt-8 flex flex-col gap-3.5 border-t border-white/12 pt-6 text-sm font-light text-white/65">
+        {bullets.map((b) => (
+          <div class="flex gap-3"><span class="text-acc">—</span> {b}</div>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <form data-contact-form={id} method="POST" action="/api/contact" class="flex flex-col gap-6 sm:gap-8">
+    <input type="hidden" name="source" value={id} />
+    <input type="text" name="captcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+
+    <div class="grid gap-6 sm:grid-cols-2 sm:gap-8">
+      {textFields.map((f) => (
+        <label class="flex flex-col gap-3">
+          <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">
+            {f.label}{f.required && ' *'}
+          </span>
+          {f.type === 'select' ? (
+            <div class="relative">
+              <select
+                name={f.name}
+                required={f.required}
+                class="w-full appearance-none border-0 border-b border-white/22 bg-transparent py-3 pr-6 text-base outline-none focus:border-acc"
+              >
+                <option value="">Choisir</option>
+                {f.options.map((o) => <option>{o}</option>)}
+              </select>
+              <span class="pointer-events-none absolute bottom-4 right-0.5 text-[9px] text-acc">▼</span>
+            </div>
+          ) : (
+            <input
+              type={f.type}
+              name={f.name}
+              required={f.required}
+              placeholder={f.placeholder}
+              min={f.min}
+              max={f.max}
+              class="w-full border-0 border-b border-white/22 bg-transparent px-0.5 py-3 text-base outline-none focus:border-acc"
+            />
+          )}
+        </label>
+      ))}
+    </div>
+
+    {areaFields.map((f) => (
+      <label class="flex flex-col gap-3">
+        <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">{f.label}</span>
+        <textarea
+          name={f.name}
+          rows="5"
+          placeholder={f.placeholder}
+          class="w-full resize-y border border-white/22 bg-transparent p-4 text-base leading-relaxed outline-none focus:border-acc"
+        ></textarea>
+      </label>
+    ))}
+
+    <div class="flex flex-wrap items-center gap-5 pt-2">
+      <button
+        type="submit"
+        class:list={[
+          'inline-flex items-center gap-3 rounded-full bg-acc px-7 py-4 text-[11px] font-bold uppercase tracking-[0.18em] transition-colors hover:bg-white',
+          ink
+        ]}
+      >
+        {submitLabel} <span class="text-[13px] leading-none">→</span>
+      </button>
+      <span class="max-w-[32ch] text-xs font-light text-white/45">{note}</span>
+    </div>
+  </form>
+</div>

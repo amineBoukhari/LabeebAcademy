@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site.js';
+import { subjects, roles } from '../data/travel.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const fields = [
+  { name: 'nom', label: 'Nom complet', type: 'text', required: true, placeholder: 'Prénom et nom' },
+  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'vous@entreprise.dz' },
+  { name: 'telephone', label: 'Numéro', type: 'tel', required: true, placeholder: '+213 …' },
+  { name: 'entreprise', label: 'Entreprise', type: 'text', required: false, placeholder: 'Raison sociale' },
+  { name: 'role', label: 'Rôle', type: 'select', required: false, options: roles },
+  { name: 'sujet', label: 'Sujet', type: 'select', required: true, options: subjects },
+  { name: 'note', label: 'Note', type: 'textarea', placeholder: 'Votre situation, votre objectif, vos délais.' }
+];
+---
+
+<Base
+  title="Contact"
+  description="Dites-nous où vous en êtes et ce que vous cherchez. Un conseiller Labeeb vous répond sous 48 heures ouvrées."
+  locale={locale}
+  routeKey="contact"
+  ctaHref="#formulaire"
+  ctaLabel="Écrire à l'académie"
+>
+  <section class="animate-labeeb-up border-b border-white/10 px-5 py-14 sm:px-8 sm:py-20 lg:py-28">
+    <div class="mx-auto grid max-w-[1320px] items-end gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Contact</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="font-arabic text-2xl leading-none text-gold/90" dir="rtl">اتصل بنا</span>
+        </div>
+        <h1 class="font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl lg:text-8xl">
+          Parlons de votre situation
+        </h1>
+      </div>
+      <p class="max-w-[46ch] text-base font-light leading-relaxed text-white/72 sm:text-lg">
+        Dites-nous où vous en êtes et ce que vous cherchez. Un conseiller Labeeb vous répond sous 48 heures ouvrées, en français ou en arabe.
+      </p>
+    </div>
+  </section>
+
+  <section id="formulaire" class="px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-start gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-20">
+      <aside class="flex flex-col gap-7 sm:gap-9">
+        <div>
+          <div class="mb-3.5 text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">Académie</div>
+          <div class="text-[17px] font-semibold leading-relaxed">{site.name}<br />{site.city}</div>
+        </div>
+        <div class="border-t border-white/12 pt-6">
+          <div class="mb-3.5 text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">Écrire</div>
+          <a href={`mailto:${site.email}`} class="text-[17px] font-semibold">{site.email}</a>
+        </div>
+        <div class="border-t border-white/12 pt-6">
+          <div class="mb-3.5 text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">Appeler</div>
+          <a href={site.phoneHref} class="text-[17px] font-semibold">{site.phone}</a>
+          <div class="mt-2.5 text-sm font-light text-white/50">{site.hours}</div>
+        </div>
+        <div class="border-t border-white/12 pt-6">
+          <div class="mb-3.5 text-[10px] font-bold uppercase tracking-[0.26em] text-white/45">Suivre</div>
+          <div class="flex flex-wrap gap-4.5 text-xs font-semibold uppercase tracking-[0.14em]">
+            {site.social.map((s) => <a href={s.href}>{s.label}</a>)}
+          </div>
+        </div>
+        <div class="border border-white/14 bg-white/[0.035] p-6">
+          <div class="mb-3.5 text-[10px] font-bold uppercase tracking-[0.26em] text-gold">Plus rapide</div>
+          <p class="text-sm font-light leading-relaxed text-white/70">
+            Pour une orientation immédiate, réservez quinze minutes d'appel avec un conseiller.
+          </p>
+          <a href="#" class="mt-5 inline-flex items-center gap-2.5 text-[11px] font-bold uppercase tracking-[0.18em] text-acc">
+            Réserver un appel <span class="text-[13px] leading-none">→</span>
+          </a>
+        </div>
+      </aside>
+
+      <ContactForm
+        id="contact"
+        eyebrow="Formulaire"
+        title="Écrivez-nous"
+        fields={fields}
+        submitLabel="Envoyer ma demande"
+        note="Réponse sous 48 heures ouvrées. Vos informations ne sont pas partagées."
+      />
+    </div>
+  </section>
+</Base>

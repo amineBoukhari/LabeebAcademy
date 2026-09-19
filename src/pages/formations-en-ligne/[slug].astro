@@ -1,0 +1,15 @@
+---
+import FormationDetail from '../../screens/FormationDetail.astro';
+import { formations } from '../../data/formations.js';
+
+export function getStaticPaths() {
+  return formations.map((formation) => ({
+    params: { slug: formation.slug },
+    props: { formation }
+  }));
+}
+
+const { formation } = Astro.props;
+---
+
+<FormationDetail locale="fr" formation={formation} />

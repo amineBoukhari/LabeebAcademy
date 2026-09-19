@@ -1,0 +1,214 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Photo from '../components/Photo.astro';
+import Faq from '../components/Faq.astro';
+import { images } from '../assets/index.js';
+import { path } from '../i18n/utils.js';
+
+const { locale = 'fr', formation } = Astro.props;
+
+const half = Math.ceil(formation.modules.length / 2);
+const modulesLeft = formation.modules.slice(0, half);
+const modulesRight = formation.modules.slice(half);
+---
+
+<Base
+  title={formation.title}
+  description={formation.detailIntro}
+  locale={locale}
+  routeKey="online"
+  ctaHref="#inscription"
+  ctaLabel="S'inscrire"
+>
+  <section class="px-5 pt-7 sm:px-8">
+    <div class="mx-auto flex max-w-[1320px] flex-wrap gap-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/42">
+      <a href={path('home', locale)}>Accueil</a><span>/</span>
+      <a href={path('online', locale)}>Formation en ligne</a><span>/</span>
+      <span class="text-white/80">{formation.title}</span>
+    </div>
+  </section>
+
+  <section class="animate-labeeb-up border-b border-white/10 px-5 py-10 sm:px-8 sm:py-16">
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[10px] font-bold uppercase tracking-[0.28em] text-acc">{formation.domain}</span>
+          <span class="h-px w-7 bg-acc/50"></span>
+          {formation.flagship && <span class="text-[10px] font-bold uppercase tracking-[0.28em] text-gold">Programme phare</span>}
+        </div>
+        <h1 class="max-w-[15ch] font-display text-4xl uppercase leading-[0.95] tracking-tight text-balance sm:text-6xl lg:text-7xl">
+          {formation.title}
+        </h1>
+        <p class="mt-7 max-w-[50ch] text-base font-light leading-relaxed text-white/74 sm:text-lg">
+          {formation.detailIntro}
+        </p>
+        <div class="mt-9 grid grid-cols-2 gap-6 border-t border-white/12 pt-7 sm:grid-cols-4">
+          {formation.meta.map((m) => (
+            <div>
+              <div class="mb-2.5 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">{m.label}</div>
+              <div class="text-[15px] font-semibold">{m.value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-5">
+        <Photo label={`session ${formation.title}`} class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+        <div id="inscription" class="border border-white/14 bg-white/[0.035] p-6 sm:p-8">
+          <div class="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <div class="mb-2.5 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">Tarif</div>
+              <div class="font-display text-3xl leading-none sm:text-4xl">{formation.meta.find((m) => m.label === 'Tarif')?.value ?? 'À confirmer'}</div>
+            </div>
+            <div class="rounded-full border border-acc/40 px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-acc">
+              Accès 12 mois
+            </div>
+          </div>
+          <div class="mt-6 flex flex-col gap-3 border-t border-white/12 pt-6 text-sm font-light text-white/72">
+            {formation.includes.map((inc) => <div class="flex gap-3"><span class="text-acc">—</span> {inc}</div>)}
+          </div>
+          <a href="#" class="mt-7 flex items-center justify-center gap-3 rounded-full bg-acc px-6 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-bg hover:bg-white">
+            Réserver ma place <span class="text-[13px] leading-none">→</span>
+          </a>
+          <div class="mt-4 text-center text-xs text-white/45">Paiement à l'inscription · facture sur demande</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <nav class="sticky top-[57px] z-[15] border-b border-white/10 bg-bg/90 px-5 backdrop-blur-md sm:px-8">
+    <div class="mx-auto flex max-w-[1320px] flex-wrap gap-6 text-[11px] font-bold uppercase tracking-[0.2em] text-white/50 sm:gap-10">
+      <a href="#programme" class="py-4.5">Programme</a>
+      <a href="#resultats" class="py-4.5">Résultats</a>
+      <a href="#formateur" class="py-4.5">Formateur</a>
+      {formation.testimonials?.length > 0 && <a href="#avis" class="py-4.5">Avis</a>}
+      <a href="#faq" class="py-4.5">FAQ</a>
+    </div>
+  </nav>
+
+  <section id="programme" class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[14ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Le programme</h2>
+        <p class="max-w-[44ch] font-light leading-relaxed text-white/66">
+          Les modules se suivent dans l'ordre. Comptez une à deux semaines par module si vous appliquez au fur et à mesure.
+        </p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2">
+        {[modulesLeft, modulesRight].map((col) => (
+          <div>
+            {col.map((m) => (
+              <div class="grid grid-cols-[46px_minmax(0,1fr)] gap-5 border-t border-white/10 py-6">
+                <span class:list={["font-display text-base", m.n === formation.modules.at(-1).n ? 'text-acc' : 'text-white/30']}>{m.n}</span>
+                <div>
+                  <h3 class="text-[17px] font-semibold tracking-tight">{m.title}</h3>
+                  <p class="mt-2.5 text-sm font-light leading-relaxed text-white/60">{m.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    id="resultats"
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 90% 0%,rgba(46,230,166,0.1) 0%,rgba(10,10,10,0) 65%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">À la sortie</div>
+      <h2 class="mb-10 max-w-[20ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Ce que vous saurez faire
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {formation.outcomes.map((o, i) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{String(i + 1).padStart(2, '0')}</div>
+            <p class="font-light leading-relaxed text-white/78">{o}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="formateur" class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-10 sm:grid-cols-2 sm:gap-16">
+      <div class="aspect-4/5 overflow-hidden border border-white/10 bg-white/[0.04]">
+        <img src={images.founderAroubi.src} alt="Abderrahmane Aroubi" class="h-full w-full object-cover" style="object-position:45% 22%" />
+      </div>
+      <div>
+        <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Le formateur</div>
+        <h2 class="font-display text-4xl uppercase leading-[0.94] tracking-tight sm:text-5xl">Abderrahmane Aroubi</h2>
+        <div class="mt-3.5 text-[13px] font-semibold uppercase tracking-[0.16em] text-gold">Fondateur — Labeeb Academy</div>
+        <p class="mt-6 max-w-[48ch] font-light leading-relaxed text-white/72">
+          Formateur et consultant en management, il accompagne depuis 2018 les dirigeants algériens sur la structure, la délégation et le pilotage. Le GMS est la mise en ligne du programme qu'il anime en présentiel auprès des comités de direction.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-8 border-t border-white/12 pt-6">
+          {[
+            { value: '1 200+', label: 'Dirigeants formés' },
+            { value: '48', label: 'Entreprises' },
+            { value: '2018', label: 'Depuis' }
+          ].map((s) => (
+            <div>
+              <div class="font-display text-3xl leading-none">{s.value}</div>
+              <div class="mt-2 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {formation.testimonials?.length > 0 && (
+    <section id="avis" class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+      <div class="mx-auto max-w-[1320px]">
+        <div class="mb-10 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ils ont suivi le parcours</div>
+        <div class="grid gap-8 sm:grid-cols-2 sm:gap-12">
+          {formation.testimonials.map((t) => (
+            <blockquote class="border-t border-white/14 pt-6">
+              <p class="text-lg font-light leading-snug text-white/85 sm:text-xl">{t.quote}</p>
+              <footer class="mt-5 flex items-center gap-3 text-[13px] text-white/50">
+                <span class="font-semibold text-white">{t.name}</span>
+                <span class="h-3 w-px bg-white/20"></span>
+                <span>{t.detail}</span>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section id="faq" class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-start gap-10 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] sm:gap-16">
+      <h2 class="max-w-[12ch] font-display text-4xl uppercase leading-[0.98] tracking-tight sm:text-6xl">Questions fréquentes</h2>
+      <Faq items={formation.faq} />
+    </div>
+  </section>
+
+  <section class="px-5 py-16 sm:px-8 sm:py-24" style="background:radial-gradient(80% 120% at 12% 100%,#123A2C 0%,#0A0A0A 62%)">
+    <div class="mx-auto grid max-w-[1320px] items-end gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Inscription</span>
+          <span class="font-arabic text-xl leading-none text-gold/90" dir="rtl">لبيـــب</span>
+        </div>
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+          Commencez le module un cette semaine
+        </h2>
+      </div>
+      <div>
+        <p class="max-w-[44ch] font-light leading-relaxed text-white/70">
+          Accès immédiat après inscription. Si vous préférez en parler d'abord, réservez quinze minutes avec un conseiller.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3.5">
+          <Button href="#inscription" variant="solid">Réserver ma place</Button>
+          <Button href={path('online', locale)} variant="outline">Voir les autres parcours</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

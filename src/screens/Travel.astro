@@ -1,0 +1,203 @@
+---
+import Base from '../layouts/Base.astro';
+import Photo from '../components/Photo.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { travel, roles } from '../data/travel.js';
+import { images } from '../assets/index.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const editionOptions = [
+  'Première édition disponible',
+  "Première moitié de l'année",
+  "Seconde moitié de l'année",
+  'Je veux seulement être informé'
+];
+
+const fields = [
+  { name: 'nom', label: 'Nom complet', type: 'text', required: true, placeholder: 'Prénom et nom' },
+  { name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'vous@entreprise.dz' },
+  { name: 'telephone', label: 'Numéro', type: 'tel', required: true, placeholder: '+213 …' },
+  { name: 'entreprise', label: 'Entreprise', type: 'text', required: false, placeholder: 'Raison sociale' },
+  { name: 'role', label: 'Rôle', type: 'select', required: false, options: roles.filter((r) => r !== 'Étudiant' && r !== 'Collaborateur') },
+  { name: 'edition', label: 'Édition souhaitée', type: 'select', required: true, options: editionOptions },
+  { name: 'note', label: 'Note', type: 'textarea', placeholder: 'L\'enjeu que vous aimeriez traiter pendant le voyage.' }
+];
+---
+
+<Base
+  title={travel.title}
+  description={travel.lede}
+  locale={locale}
+  routeKey="travel"
+  ctaHref="#candidature"
+  ctaLabel="Être informé"
+  bg="bg-travel-deep"
+  headerBg="bg-travel-deep/88"
+>
+  <div style="background:linear-gradient(180deg,rgba(11,63,69,0) 0%,rgba(11,63,69,0.4) 14%,rgba(12,74,78,0.85) 38%,rgba(12,74,78,0.8) 60%,rgba(6,32,31,0.45) 84%,rgba(6,32,31,0) 100%)">
+    <section data-plane-hero class="relative h-screen overflow-hidden">
+      <div data-plane-sea class="absolute -inset-x-[6%] -inset-y-[8%] z-[1] will-change-transform">
+        <img src={images.travelIsland.src} alt="" class="h-full w-full object-cover" />
+      </div>
+      <img
+        data-plane
+        src={images.travelPlane.src}
+        alt=""
+        class="pointer-events-none absolute left-1/2 top-1/2 z-[3] w-[min(30vw,330px)] will-change-transform"
+        style="transform:translate(-50%,-50%) translateY(34vh) scale(0.92)"
+      />
+      <div class="absolute inset-0 z-[4] flex flex-col justify-center px-5 sm:px-8">
+        <div data-plane-copy class="mx-auto w-full max-w-[1320px] will-change-transform">
+          <div class="mb-5 flex items-center gap-3.5">
+            <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{travel.eyebrow}</span>
+            <span class="h-px w-8 bg-acc/50"></span>
+            <span class="font-arabic text-2xl leading-none text-gold/95" dir="rtl">{travel.arabic}</span>
+          </div>
+          <h1 class="max-w-[15ch] font-display text-4xl uppercase leading-[0.95] tracking-tight text-balance sm:text-6xl lg:text-8xl">
+            {travel.title}
+          </h1>
+          <p class="mt-6 max-w-[46ch] text-base font-light leading-relaxed text-white/82 sm:text-lg">{travel.lede}</p>
+          <div class="mt-9 flex flex-wrap items-center gap-4.5">
+            {travel.facts.map((f, i) => (
+              <>
+                {i > 0 && <span class="h-4 w-px bg-white/25"></span>}
+                <span class="text-xs font-bold uppercase tracking-[0.2em] text-white/80">{f}</span>
+              </>
+            ))}
+            <a href="#candidature" class="inline-flex items-center gap-3 rounded-full bg-acc px-6 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-travel-deep hover:bg-white">
+              Être informé <span class="text-[13px] leading-none">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 border-b border-white/12 pb-10 sm:grid-cols-2 sm:gap-16">
+        <div>
+          <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Édition précédente</div>
+          <h2 class="max-w-[17ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-6xl">
+            Ce que le dernier voyage a produit
+          </h2>
+        </div>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">
+          Une semaine, douze dirigeants, quatre entreprises visitées. Les photos et le bilan de l'édition passée.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <Photo label="visite d'entreprise" class="aspect-3/4 border border-white/10 bg-white/[0.04]" />
+        <Photo label="dîner networking" class="aspect-3/4 border border-white/10 bg-white/[0.04]" />
+        <Photo label="atelier du matin" class="aspect-3/4 border border-white/10 bg-white/[0.04]" />
+        <Photo label="le groupe" class="aspect-3/4 border border-white/10 bg-white/[0.04]" />
+      </div>
+
+      <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4">
+        {travel.prevStats.map((s) => (
+          <div class="border-t border-white/14 pt-5">
+            <div class="font-display text-3xl leading-none sm:text-4xl">{s.value}</div>
+            <div class="mt-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(201,169,97,0.14) 0%,rgba(6,37,34,0) 68%)"
+  >
+    <div class="mx-auto grid max-w-[1320px] items-center gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-gold">{travel.next.eyebrow}</div>
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+          {travel.next.title}
+        </h2>
+        <p class="mt-6 max-w-[46ch] font-light leading-relaxed text-white/72">{travel.next.body}</p>
+        <div class="mt-8 grid grid-cols-2 gap-6 border-t border-white/14 pt-6 text-[15px] font-semibold">
+          {travel.next.meta.map((m) => (
+            <div><div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">{m.label}</div>{m.value}</div>
+          ))}
+        </div>
+        <a href="#candidature" class="mt-8 inline-flex items-center gap-3 rounded-full bg-acc px-6 py-4 text-[11px] font-bold uppercase tracking-[0.18em] text-travel-deep hover:bg-white">
+          Être informé en priorité <span class="text-[13px] leading-none">→</span>
+        </a>
+      </div>
+      <div class="relative aspect-4/5 overflow-hidden border border-white/10 bg-white/[0.04]">
+        <img src={images.travelIslandSm.src} alt="" class="h-full w-full object-cover" />
+        <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(6,37,34,0) 50%,rgba(6,37,34,0.85))"></div>
+        <div class="absolute inset-x-0 bottom-0 p-6">
+          <div class="mb-2.5 text-[10px] font-bold uppercase tracking-[0.24em] text-acc">Édition 2026</div>
+          <div class="font-display text-2xl uppercase leading-tight">Candidatures ouvertes</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 grid items-end gap-8 sm:grid-cols-2 sm:gap-16">
+        <h2 class="max-w-[13ch] font-display text-4xl uppercase leading-[0.96] tracking-tight sm:text-6xl">Comment ça marche</h2>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/66">
+          Le groupe est constitué avant la destination. Nous choisissons les participants, puis le programme se construit autour de leurs enjeux.
+        </p>
+      </div>
+      <div class="grid gap-x-16 sm:grid-cols-2 lg:grid-cols-4">
+        {travel.how.map((h) => (
+          <div class="grid grid-cols-[44px_minmax(0,1fr)] gap-5 border-t border-white/12 py-7">
+            <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{h.n}</span>
+            <div>
+              <h3 class="font-display text-xl uppercase leading-tight">{h.title}</h3>
+              <p class="mt-3 text-[15px] font-light leading-relaxed text-white/62">{h.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 12% 0%,rgba(46,230,166,0.1) 0%,rgba(6,37,34,0) 62%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ce que vous en retirez</div>
+      <h2 class="mb-10 max-w-[19ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Vous rentrez avec des décisions, pas des photos
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        {travel.gains.map((g) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{g.n}</div>
+            <h3 class="mb-2.5 text-[17px] font-semibold">{g.title}</h3>
+            <p class="text-[15px] font-light leading-relaxed text-white/68">{g.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="candidature" class="px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <ContactForm
+        id="travel-candidature"
+        eyebrow="Candidature"
+        eyebrowArabic="سفر"
+        title="Douze places, une par dirigeant"
+        lede="Dites-nous qui vous êtes et ce que vous cherchez à régler. Nous revenons vers vous sous 48 heures ouvrées avec la suite du processus."
+        bullets={[
+          'Aucun engagement à ce stade',
+          'Destination et budget communiqués après entretien',
+          'Groupe constitué par ordre de candidature'
+        ]}
+        fields={fields}
+        submitLabel="Envoyer ma candidature"
+        note="Réponse sous 48 heures ouvrées."
+        ink="text-travel-deep"
+      />
+    </div>
+  </section>
+</Base>

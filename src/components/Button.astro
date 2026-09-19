@@ -1,0 +1,18 @@
+---
+const { href, variant = 'outline', class: className = '', arrow = true, ...rest } = Astro.props;
+
+const base =
+  'inline-flex items-center gap-2.5 whitespace-nowrap rounded-full px-5 py-3 text-[11px] font-bold uppercase tracking-[0.18em] transition-all duration-300';
+
+const variants = {
+  outline:
+    'border border-white/25 hover:border-acc hover:text-acc',
+  solid:
+    'bg-acc text-bg hover:-translate-y-px hover:shadow-[0_18px_44px_-20px_rgba(46,230,166,0.75)]'
+};
+---
+
+<a href={href} class={`${base} ${variants[variant]} ${className}`} {...rest}>
+  <slot />
+  {arrow && <span class="text-[13px] leading-none">→</span>}
+</a>

@@ -1,0 +1,124 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Photo from '../components/Photo.astro';
+import { timeline, storyStats } from '../data/team.js';
+import { site } from '../data/site.js';
+import { images } from '../assets/index.js';
+import { path } from '../i18n/utils.js';
+
+const { locale = 'fr' } = Astro.props;
+---
+
+<Base title="Notre histoire" description="Les étapes de Labeeb Academy, depuis 2018." locale={locale} routeKey="story">
+  <section class="animate-labeeb-up border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-7 flex items-center gap-3.5">
+        <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Notre histoire</span>
+        <span class="h-px w-9 bg-acc/50"></span>
+        <span class="font-arabic text-2xl leading-none text-acc/85" dir="rtl">قصتنا</span>
+      </div>
+      <h1 class="max-w-[17ch] font-display text-5xl uppercase leading-[0.98] tracking-tight text-balance sm:text-7xl lg:text-8xl">
+        Une académie née d'un constat
+      </h1>
+      <div class="mt-10 grid gap-8 border-t border-white/12 pt-8 sm:grid-cols-2 sm:gap-16">
+        <p class="max-w-[44ch] text-base font-light leading-relaxed text-white/76 sm:text-lg">
+          Les dirigeants algériens ne manquent pas d'ambition. Ils manquent de cadres de décision : des méthodes écrites, applicables, tenues dans le temps.
+        </p>
+        <p class="max-w-[46ch] text-[15px] font-light leading-relaxed text-white/60">
+          Labeeb Academy s'est construite autour de cette idée, à Constantine, une promotion après l'autre. Voici les étapes, dans l'ordre.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 pt-14 sm:px-8 sm:pt-20">
+    <div class="mx-auto flex max-w-[1320px] flex-col gap-16 sm:gap-24">
+      {timeline.map((chapter, i) => (
+        <article class="grid items-center gap-8 sm:grid-cols-2 sm:gap-16">
+          <div class:list={{ 'sm:order-2': i % 2 === 1 }}>
+            <Photo label={chapter.title} src={chapter.image} class="aspect-4/5 border border-white/10 bg-white/[0.04]" />
+          </div>
+          <div class:list={{ 'sm:order-1': i % 2 === 1 }}>
+            <div class="mb-5 flex items-baseline gap-4.5">
+              <span class="font-display text-4xl leading-[0.96] tracking-tight text-white/16 sm:text-6xl">{chapter.year}</span>
+              <span class="h-px flex-1 bg-white/14"></span>
+              <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{chapter.chapter}</span>
+            </div>
+            <h2 class="max-w-[17ch] font-display text-3xl uppercase leading-[0.96] tracking-tight text-balance sm:text-5xl">
+              {chapter.title}
+            </h2>
+            <p class="mt-6 max-w-[48ch] font-light leading-relaxed text-white/72">{chapter.body}</p>
+            {chapter.cta && (
+              <a href={path('online', locale)} class="mt-7 inline-flex items-center gap-3 border-b border-white/25 pb-2.5 text-[11px] font-bold uppercase tracking-[0.2em] hover:border-acc hover:text-acc">
+                Voir les parcours en ligne <span>→</span>
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section
+    class="mt-16 border-y border-white/10 px-5 py-16 sm:mt-24 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(46,230,166,0.1) 0%,rgba(10,10,10,0) 65%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Aujourd'hui</div>
+      <h2 class="max-w-[20ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Six lignes de service, une même exigence
+      </h2>
+      <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4">
+        {storyStats.map((s) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="font-display text-2xl leading-none sm:text-3xl">{s.value}</div>
+            <div class="mt-2.5 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto grid max-w-[1320px] items-center gap-10 sm:grid-cols-2 sm:gap-16">
+      <div class="aspect-4/5 overflow-hidden border border-white/10 bg-white/[0.04]">
+        <img src={images.founderAroubi.src} alt={site.founder.name} class="h-full w-full object-cover" style="object-position:45% 22%" />
+      </div>
+      <div>
+        <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Le fondateur</div>
+        <blockquote class="max-w-[34ch] text-2xl font-light leading-snug tracking-tight text-white/90 text-balance sm:text-4xl">
+          {site.founder.quote}
+        </blockquote>
+        <div class="mt-7 flex items-center gap-3.5 text-[13px] text-white/55">
+          <span class="font-semibold text-white">{site.founder.name}</span>
+          <span class="h-3 w-px bg-white/22"></span>
+          <span>Fondateur, Labeeb Academy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-16 sm:px-8 sm:py-24" style="background:radial-gradient(80% 120% at 12% 100%,#123A2C 0%,#0A0A0A 62%)">
+    <div class="mx-auto grid max-w-[1320px] items-end gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Chapitre suivant</span>
+          <span class="font-arabic text-xl leading-none text-acc/85" dir="rtl">لبيـــب</span>
+        </div>
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+          Le vôtre commence par un diagnostic
+        </h2>
+      </div>
+      <div>
+        <p class="max-w-[44ch] font-light leading-relaxed text-white/70">
+          Quinze minutes avec un conseiller Labeeb pour situer votre entreprise et choisir le bon format.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3.5">
+          <Button href={path('contact', locale)} variant="solid">Nous écrire</Button>
+          <Button href={path('online', locale)} variant="outline">Voir les parcours</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

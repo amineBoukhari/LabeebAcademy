@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Photo from '../components/Photo.astro';
+import { formations, onlineIndex } from '../data/formations.js';
+import { path } from '../i18n/utils.js';
+
+const { locale = 'fr' } = Astro.props;
+---
+
+<Base
+  title={onlineIndex.title}
+  description={onlineIndex.lede}
+  locale={locale}
+  routeKey="online"
+  ctaHref="#appel"
+  ctaLabel="Réserver un appel"
+>
+  <section class="animate-labeeb-up border-b border-white/10 px-5 py-14 sm:px-8 sm:py-20 lg:py-28">
+    <div class="mx-auto grid max-w-[1320px] items-end gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{onlineIndex.eyebrow}</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="font-arabic text-2xl leading-none text-gold/90" dir="rtl">{onlineIndex.arabic}</span>
+        </div>
+        <h1 class="font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl lg:text-8xl">
+          {onlineIndex.title}
+        </h1>
+      </div>
+      <div>
+        <p class="max-w-[46ch] text-base font-light leading-relaxed text-white/72 sm:text-lg">{onlineIndex.lede}</p>
+        <div class="mt-8 flex flex-wrap gap-8 border-t border-white/12 pt-6">
+          {onlineIndex.stats.map((s) => (
+            <div>
+              <div class="font-display text-3xl leading-none">{s.value}</div>
+              <div class="mt-2 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {formations.map((f, i) => (
+    <section
+      class="border-b border-white/10 px-5 py-14 sm:px-8 sm:py-20"
+      style={i === 0 ? 'background:radial-gradient(70% 100% at 85% 0%,rgba(201,169,97,0.13) 0%,rgba(10,10,10,0) 70%)' : undefined}
+    >
+      <div class="mx-auto grid max-w-[1320px] items-center gap-8 sm:grid-cols-2 sm:gap-12">
+        <div class:list={{ 'sm:order-2': i === 0 }}>
+          <Photo label={f.title} class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
+        </div>
+        <div class:list={{ 'sm:order-1': i === 0 }}>
+          <div class:list={["mb-5 text-[10px] font-bold uppercase tracking-[0.28em]", f.flagship ? 'text-gold' : 'text-acc']}>
+            {f.eyebrow}
+          </div>
+          <h2 class="max-w-[18ch] font-display text-3xl uppercase leading-[0.94] tracking-tight text-balance sm:text-5xl">
+            {f.title}
+          </h2>
+          <p class="mt-5 max-w-[48ch] font-light leading-relaxed text-white/70">{f.intro}</p>
+          <div class="mt-8 flex flex-wrap gap-6 border-t border-white/12 pt-6 text-sm font-semibold sm:gap-9">
+            {f.meta.map((m) => (
+              <div>
+                <div class="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/45">{m.label}</div>
+                {m.value}
+              </div>
+            ))}
+          </div>
+          <div class="mt-9 flex flex-wrap gap-3.5">
+            <Button href={`${path('online', locale)}/${f.slug}`} variant="solid">Voir le programme</Button>
+            <Button href="#appel" variant="outline">Parler à un conseiller</Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section id="appel" class="px-5 py-16 sm:px-8 sm:py-24" style="background:radial-gradient(80% 120% at 12% 100%,#123A2C 0%,#0A0A0A 62%)">
+    <div class="mx-auto grid max-w-[1320px] items-end gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Vous hésitez</div>
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+          Commencez par un diagnostic
+        </h2>
+      </div>
+      <div>
+        <p class="max-w-[44ch] font-light leading-relaxed text-white/70">
+          Quinze minutes avec un conseiller Labeeb pour identifier le parcours qui correspond à votre situation. Sans engagement.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3.5">
+          <Button href={path('contact', locale)} variant="solid">Réserver un appel</Button>
+          <Button href={`${path('home', locale)}#disc`} variant="outline">Passer le test DISC</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

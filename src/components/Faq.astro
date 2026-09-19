@@ -1,0 +1,18 @@
+---
+const { items } = Astro.props;
+---
+
+<div class="divide-y divide-white/12 border-t border-white/12">
+  {items.map((item) => (
+    <details class="group py-6 [&::-webkit-details-marker]:hidden [&::marker]:content-none">
+      <summary class="flex cursor-pointer list-none items-baseline justify-between gap-6">
+        <span class="text-[17px] font-semibold leading-snug">{item.q}</span>
+        <span class="shrink-0 text-lg leading-none text-acc">
+          <span class="group-open:hidden">+</span>
+          <span class="hidden group-open:inline">−</span>
+        </span>
+      </summary>
+      <p class="mt-4 max-w-[52ch] text-[15px] font-light leading-relaxed text-white/65">{item.a}</p>
+    </details>
+  ))}
+</div>

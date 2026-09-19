@@ -1,0 +1,118 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Photo from '../components/Photo.astro';
+import { site } from '../data/site.js';
+import { team, teamRules } from '../data/team.js';
+import { images } from '../assets/index.js';
+import { path } from '../i18n/utils.js';
+
+const { locale = 'fr' } = Astro.props;
+---
+
+<Base title="Notre équipe" description={site.founder.bio} locale={locale} routeKey="team">
+  <section class="animate-labeeb-up border-b border-white/10 px-5 py-14 sm:px-8 sm:py-20 lg:py-28">
+    <div class="mx-auto grid max-w-[1320px] items-end gap-10 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-6 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Notre équipe</span>
+          <span class="h-px w-9 bg-acc/50"></span>
+          <span class="font-arabic text-2xl leading-none text-gold/90" dir="rtl">فريقنا</span>
+        </div>
+        <h1 class="max-w-[14ch] font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl lg:text-8xl">
+          Ceux qui animent
+        </h1>
+      </div>
+      <p class="max-w-[46ch] text-base font-light leading-relaxed text-white/72 sm:text-lg">
+        Des praticiens avant des formateurs : chacun dirige ou a dirigé une entreprise, et n'enseigne que ce qu'il applique. Un intervenant par domaine, jamais deux.
+      </p>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-14 sm:px-8 sm:py-20"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(201,169,97,0.13) 0%,rgba(10,10,10,0) 68%)"
+  >
+    <div class="mx-auto grid max-w-[1320px] items-center gap-10 sm:grid-cols-2 sm:gap-16">
+      <div class="aspect-4/5 overflow-hidden border border-white/10 bg-white/[0.04]">
+        <img src={images.founderAroubi.src} alt={site.founder.name} class="h-full w-full object-cover" style="object-position:45% 22%" />
+      </div>
+      <div>
+        <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-gold">Fondateur</div>
+        <h2 class="font-display text-4xl uppercase leading-[0.94] tracking-tight sm:text-5xl">{site.founder.name}</h2>
+        <div class="mt-3.5 text-[13px] font-semibold uppercase tracking-[0.16em] text-acc">{site.founder.domain}</div>
+        <p class="mt-6 max-w-[48ch] font-light leading-relaxed text-white/72">{site.founder.bio}</p>
+        <div class="mt-8 flex flex-wrap gap-8 border-t border-white/12 pt-6">
+          {site.founder.stats.map((s) => (
+            <div>
+              <div class="font-display text-3xl leading-none">{s.value}</div>
+              <div class="mt-2 text-[10px] font-bold uppercase tracking-[0.22em] text-white/50">{s.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-10 flex flex-wrap items-end justify-between gap-6">
+        <h2 class="max-w-[16ch] font-display text-4xl uppercase leading-[0.94] tracking-tight sm:text-5xl">Les intervenants associés</h2>
+        <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-white/45">Un par domaine</span>
+      </div>
+      <div class="grid gap-7 sm:grid-cols-2 lg:grid-cols-4">
+        {team.map((t) => (
+          <article>
+            <Photo label={t.domain} src={t.image} alt={t.name} class="aspect-3/4 border border-white/10 bg-white/[0.04]" />
+            <div class="mb-2.5 mt-5 text-[10px] font-bold uppercase tracking-[0.24em] text-acc">{t.domain}</div>
+            <h3 class="font-display text-xl uppercase leading-tight tracking-tight">{t.name}</h3>
+            <p class="mt-3 text-sm font-light leading-relaxed text-white/60">{t.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section
+    class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-24"
+    style="background:radial-gradient(70% 100% at 12% 0%,rgba(46,230,166,0.1) 0%,rgba(10,10,10,0) 62%)"
+  >
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Notre façon de travailler</div>
+      <h2 class="mb-10 max-w-[18ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+        Trois règles, tenues depuis 2018
+      </h2>
+      <div class="grid gap-8 sm:grid-cols-3">
+        {teamRules.map((r, i) => (
+          <div class="border-t border-white/14 pt-6">
+            <div class="mb-3.5 font-display text-sm text-acc">{String(i + 1).padStart(2, '0')}</div>
+            <p class="font-light leading-relaxed text-white/76">{r}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="px-5 py-16 sm:px-8 sm:py-24" style="background:radial-gradient(80% 120% at 12% 100%,#123A2C 0%,#0A0A0A 62%)">
+    <div class="mx-auto grid max-w-[1320px] items-end gap-8 sm:grid-cols-2 sm:gap-16">
+      <div>
+        <div class="mb-5 flex items-center gap-3.5">
+          <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Rejoindre l'équipe</span>
+          <span class="font-arabic text-xl leading-none text-gold/90" dir="rtl">لبيـــب</span>
+        </div>
+        <h2 class="max-w-[17ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
+          Un domaine manque, le vôtre peut-être
+        </h2>
+      </div>
+      <div>
+        <p class="max-w-[44ch] font-light leading-relaxed text-white/70">
+          Nous ouvrons un domaine à la fois, avec un praticien qui dirige déjà une entreprise. Si c'est votre cas, écrivez-nous.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3.5">
+          <Button href={path('contact', locale)} variant="solid">Proposer sa candidature</Button>
+          <Button href={path('story', locale)} variant="outline">Notre histoire</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>

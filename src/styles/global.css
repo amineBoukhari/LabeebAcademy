@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0a0a0a;
+  --color-ink: #ffffff;
+  --color-acc: #2ee6a6;
+  --color-gold: #c9a961;
+  --color-travel-deep: #062522;
+  --color-travel-mid: #123a2c;
+
+  --font-display: "Anton", sans-serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-arabic: "Mirza", serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg font-sans text-white antialiased;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  a:hover {
+    color: var(--color-acc);
+  }
+  ::selection {
+    background: var(--color-acc);
+    color: var(--color-bg);
+  }
+  [dir="rtl"] {
+    font-family: var(--font-arabic);
+  }
+}
+
+@keyframes labeeb-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes labeeb-logos {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@layer utilities {
+  .animate-labeeb-up {
+    animation: labeeb-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+}
+
+@layer components {
+  /* Pourquoi/Comment hover-expand: collapsed pane is a 92px sliver showing only
+     its vertical spine label; hovering it swaps dominance with the other pane. */
+  .pc-split {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    transition: grid-template-columns 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pc-split:has(.pc-pane-a:hover) {
+    grid-template-columns: 1fr 92px;
+  }
+  .pc-pane {
+    transition: filter 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+    filter: grayscale(1) brightness(0.55);
+    cursor: pointer;
+  }
+  .pc-pane-b {
+    filter: none;
+  }
+  .pc-split:has(.pc-pane-a:hover) .pc-pane-a {
+    filter: none;
+  }
+  .pc-split:has(.pc-pane-a:hover) .pc-pane-b {
+    filter: grayscale(1) brightness(0.55);
+  }
+  .pc-pane-body,
+  .pc-pane-spine {
+    transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .pc-pane-a .pc-pane-body {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pc-pane-a .pc-pane-spine {
+    opacity: 1;
+  }
+  .pc-pane-b .pc-pane-body {
+    opacity: 1;
+  }
+  .pc-pane-b .pc-pane-spine {
+    opacity: 0;
+  }
+  .pc-split:has(.pc-pane-a:hover) .pc-pane-a .pc-pane-body {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pc-split:has(.pc-pane-a:hover) .pc-pane-a .pc-pane-spine {
+    opacity: 0;
+  }
+  .pc-split:has(.pc-pane-a:hover) .pc-pane-b .pc-pane-body {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pc-split:has(.pc-pane-a:hover) .pc-pane-b .pc-pane-spine {
+    opacity: 1;
+  }
+
+  /* Arch hero photo: grayscale by default, revealed in color on hover. */
+  .arch-photo {
+    filter: grayscale(1) contrast(1.15) brightness(0.88);
+    transition: opacity 900ms ease, filter 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .arch-stage:hover .arch-photo {
+    filter: none;
+  }
+}

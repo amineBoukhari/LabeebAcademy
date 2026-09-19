@@ -1,0 +1,539 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Photo from '../components/Photo.astro';
+import Faq from '../components/Faq.astro';
+import { images } from '../assets/index.js';
+import { site } from '../data/site.js';
+import { path } from '../i18n/utils.js';
+
+const { locale = 'fr' } = Astro.props;
+
+const teachers = [
+  { name: site.founder.name, domain: 'Stratégie & management', role: 'Fondateur · Labeeb Academy', image: images.heroSalim, pos: '62% 20%' },
+  { name: 'Nom à confirmer', domain: 'E-commerce & croissance', role: 'Intervenant associé', image: images.hero2, pos: '62% 22%' },
+  { name: 'Nom à confirmer', domain: 'Marketing & marque', role: 'Intervenant associé', image: images.hero3, pos: '38% 24%' },
+  { name: 'Nom à confirmer', domain: 'Organisation & RH', role: 'Intervenante associée', image: images.teacher4, pos: '56% 22%' }
+];
+
+const services = [
+  {
+    n: '01',
+    title: 'Formation en ligne',
+    body: 'Le Golden Management System et nos parcours à votre rythme. Vidéos, cadres de décision et exercices appliqués à votre entreprise, accessibles partout en Algérie.',
+    meta: [['Format', 'À votre rythme'], ['Langues', 'FR · AR']],
+    cta: 'Voir le programme',
+    href: path('online', locale),
+    slot: 'Formation en ligne'
+  },
+  {
+    n: '02',
+    title: 'Formation VIP présentielle',
+    body: 'Un programme sur mesure animé chez vous, pour un comité de direction ou une équipe entière. Contenu bâti après diagnostic, pas un catalogue.',
+    meta: [['Format', 'Sur site'], ['Durée', '2 à 5 jours']],
+    cta: 'Demander un devis',
+    href: path('presential', locale),
+    slot: 'Formation VIP présentielle'
+  },
+  {
+    n: '03',
+    title: 'Mastermind & Masterclass',
+    body: 'Douze dirigeants, six sessions. Chaque rencontre traite un enjeu réel apporté par un membre, sous animation d\'un expert. Accès sur candidature.',
+    meta: [['Groupe', '12 dirigeants'], ['Rythme', '1 session / mois']],
+    cta: 'Candidater',
+    href: '#',
+    slot: 'Mastermind & Masterclass'
+  },
+  {
+    n: '04',
+    title: 'Consulting 1 to 1',
+    body: 'Une session privée avec un expert Labeeb sur un sujet précis : offre, tarification, organisation, recrutement. Profilage DISC inclus si utile.',
+    meta: [['Format', 'Individuel'], ['Durée', '90 minutes']],
+    cta: 'Réserver une session',
+    href: `${path('contact', locale)}?sujet=consulting`,
+    slot: 'Consulting 1 to 1'
+  },
+  {
+    n: '05',
+    title: 'Accompagnement',
+    body: "Étude de marché, stratégie marketing et focus groupe : les études qui précèdent une décision d'investissement. Rejoignez la liste d'attente.",
+    meta: [['Étude de marché', 'Quantitatif & terrain'], ['Focus groupe', 'Test avant lancement']],
+    cta: 'Rejoindre la liste',
+    href: `${path('contact', locale)}?sujet=accompagnement`,
+    slot: 'Accompagnement',
+    badge: 'Bientôt'
+  },
+  {
+    n: '06',
+    title: 'Test psychologique DISC',
+    body: 'Le profilage DISC pour vous et votre équipe : quatre profils, un rapport individuel et un débrief avec un expert Labeeb. Le point d\'entrée le plus simple vers l\'accompagnement.',
+    meta: [['Format', 'En ligne'], ['Débrief', '45 minutes']],
+    cta: 'Passer le test',
+    href: '#',
+    slot: 'Test psychologique DISC'
+  }
+];
+
+const partners = [images.partner1, images.partner2, images.partner3, images.partner4, images.partner5, images.partner6, images.partner7];
+
+const voices = [
+  { quote: '« Avant le GMS, je gérais au ressenti. Aujourd\'hui j\'ai des indicateurs et une équipe qui sait où elle va. »', name: 'Yacine B.', detail: 'Distribution — Constantine' },
+  { quote: '« En six sessions de mastermind, j\'ai réglé un problème d\'associé que je repoussais depuis deux ans. »', name: 'Sarah L.', detail: 'Agence marketing — Alger' },
+  { quote: '« Le DISC sur toute l\'équipe commerciale a rendu nos recrutements bien plus justes. »', name: 'Mehdi K.', detail: 'Industrie — Sétif' }
+];
+
+const faqItems = [
+  { q: "À qui s'adressent les programmes ?", a: 'Aux dirigeants, fondateurs et cadres qui décident : gérants de PME, entrepreneurs en croissance, responsables de direction. Le niveau d\'études importe moins que la responsabilité réelle exercée.' },
+  { q: 'Les sessions se déroulent en français ou en arabe ?', a: 'Les deux. L\'animation est bilingue et les supports existent dans les deux langues, parce que les décisions se prennent dans les deux.' },
+  { q: 'Combien de temps faut-il y consacrer ?', a: 'Cela dépend du parcours. La formation en ligne se suit à votre rythme ; le mastermind demande une session par mois ; les formats VIP sont calés sur votre agenda.' },
+  { q: 'Quelle différence avec une formation classique ?', a: "Vous travaillez sur votre propre entreprise pendant le programme, avec vos chiffres et vos dossiers, accompagné par un expert. Il n'y a pas de cas d'école." },
+  { q: 'Pourquoi douze places seulement ?', a: "Au-delà, chaque participant n'a plus le temps d'exposer sa situation et d'être challengé. La contrainte est pédagogique, pas commerciale." },
+  { q: 'Comment se passe la candidature ?', a: "Un appel de trente minutes pour comprendre votre situation, puis une réponse sur l'adéquation du parcours. Sans engagement de votre part." }
+];
+
+---
+
+<Base title="Académie de management" description={site.founder.bio} locale={locale} routeKey="home" ctaHref="#formulaire-appel" ctaLabel="Réserver un appel">
+  <!-- Hero -->
+  <section class="relative overflow-hidden border-b border-white/10 px-5 pb-16 pt-10 sm:px-8 sm:pb-24 sm:pt-14">
+    <div
+      class="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[min(780px,88vw)] w-[min(780px,88vw)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+      style="background:radial-gradient(circle,rgba(46,230,166,0.22) 0%,transparent 62%)"
+    ></div>
+    <div class="mx-auto max-w-[1320px] text-center">
+      <div
+        class="animate-labeeb-up font-arabic text-[clamp(46px,15vw,96px)] leading-[0.94] sm:text-[min(13vh,125px)]"
+        dir="rtl"
+        style="color:#F3EFE6"
+      >
+        لبيـــب
+      </div>
+      <div
+        class="animate-labeeb-up mt-1 text-[10px] font-bold uppercase tracking-[0.32em] sm:text-[clamp(10px,1vw,13px)] sm:tracking-[0.58em]"
+        style="color:rgba(243,239,230,0.6)"
+      >
+        Academy
+      </div>
+    </div>
+
+    <div data-hero-carousel class="relative mx-auto mt-7 flex max-w-[1320px] justify-center px-5 sm:mt-6 sm:px-12 lg:px-24">
+      <!-- floating stats beside the arch — desktop only; mobile gets its own stat row below the arch instead
+           of hiding this content (a narrow viewport has no room either side of an 82vw-wide arch) -->
+      <div class="pointer-events-none absolute left-0 top-1/2 z-[6] hidden -translate-y-1/2 sm:block lg:left-4">
+        <div class="font-display text-[min(6.4vh,60px)] leading-none tracking-tight">1 200+</div>
+        <div class="mt-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">Dirigeants formés</div>
+      </div>
+      <div class="pointer-events-none absolute right-0 top-1/2 z-[6] hidden -translate-y-1/2 text-right sm:block lg:right-4">
+        <div class="font-display text-[min(6.4vh,60px)] leading-none tracking-tight">48</div>
+        <div class="mt-2.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50">Entreprises</div>
+      </div>
+
+      <!-- arch: clips only the photos + scrim, nothing else. Mobile sizes from width (aspect-ratio derives
+           height); sm:+ restores the fixed-height desktop composition. -->
+      <div class="arch-stage animate-labeeb-up relative flex aspect-[3/4] w-[82vw] max-w-[380px] flex-none overflow-hidden rounded-t-[9999px] bg-bg sm:h-[min(62vh,700px)] sm:w-auto sm:max-w-[58vw]">
+        {[
+          { src: images.heroSalim.src, alt: 'Abderrahmane Aroubi en podcast', pos: '62% 20%', word: "L'exception" },
+          { src: images.hero2.src, alt: 'Invité en plateau podcast', pos: '62% 22%', word: 'La décision' },
+          { src: images.hero3.src, alt: 'Entretien en plateau podcast', pos: '38% 24%', word: 'La méthode' }
+        ].map((slide, n) => (
+          <img
+            data-hero-slide
+            data-word={slide.word}
+            src={slide.src}
+            alt={slide.alt}
+            class="arch-photo absolute inset-0 h-full w-full object-cover"
+            style={`object-position:${slide.pos};opacity:${n === 0 ? 1 : 0}`}
+          />
+        ))}
+        <div class="pointer-events-none absolute inset-0" style="background:linear-gradient(180deg,rgba(10,10,10,0) 42%,rgba(10,10,10,0.96) 100%)"></div>
+      </div>
+
+      <!-- word + dots sit OUTSIDE the arch's overflow-hidden box, so the giant word can bleed past its edges.
+           Sized from viewport WIDTH on mobile (not height) so long words never overflow a narrow screen. -->
+      <h1
+        data-hero-word
+        class="pointer-events-none absolute inset-x-0 bottom-[18%] z-[5] text-center font-display text-[clamp(34px,11vw,64px)] uppercase leading-[0.86] tracking-tight sm:bottom-[20%] sm:text-[min(19vh,230px)] sm:leading-[0.82]"
+        style="mix-blend-mode:difference;color:#fff"
+      >
+        L'exception
+      </h1>
+      <div class="absolute inset-x-0 bottom-1 z-[8] flex justify-center gap-1 sm:bottom-2.5 sm:gap-2.5">
+        {[0, 1, 2].map((n) => (
+          <button
+            type="button"
+            data-hero-dot
+            aria-label={`Diapositive ${n + 1}`}
+            class="box-content rounded-full px-2.5 py-3.5 transition-all sm:px-1 sm:py-2"
+            style={`background:${n === 0 ? '#2EE6A6' : 'rgba(255,255,255,0.3)'};width:${n === 0 ? '28px' : '14px'};height:2px;background-clip:content-box;-webkit-background-clip:content-box`}
+          ></button>
+        ))}
+      </div>
+    </div>
+
+    <!-- mobile-only stat row: same numbers as the desktop floating stats, adapted to sit under the arch -->
+    <div class="mx-auto mt-8 flex max-w-[320px] items-center justify-center gap-8 sm:hidden">
+      <div class="text-center">
+        <div class="font-display text-3xl leading-none">1 200+</div>
+        <div class="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/50">Dirigeants formés</div>
+      </div>
+      <div class="h-9 w-px bg-white/15"></div>
+      <div class="text-center">
+        <div class="font-display text-3xl leading-none">48</div>
+        <div class="mt-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-white/50">Entreprises</div>
+      </div>
+    </div>
+
+    <div class="mt-10 flex justify-center">
+      <Button href={path('contact', locale)} variant="solid">Réserver un appel</Button>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="border-b border-white/10 px-5 py-16 text-center sm:px-8 sm:py-24">
+    <div data-reveal class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Qu'est-ce que Labeeb Academy</div>
+    <h2 data-reveal data-delay="90" class="mx-auto max-w-[20ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-7xl">
+      Une maison de décision pour dirigeants
+    </h2>
+    <p data-reveal data-delay="180" class="mx-auto mt-6 max-w-[58ch] font-light leading-relaxed text-white/60">
+      Deux questions, une réponse : pourquoi la croissance cale, et comment un système appliqué à votre entreprise la relance.
+    </p>
+  </section>
+
+  <!-- Pourquoi / Comment: hover-expand, "Comment" dominant by default -->
+  <section class="pc-split h-[700px] border-b border-white/10">
+    <div class="pc-pane pc-pane-a relative overflow-hidden">
+      <img src={images.hero2.src} alt="" class="absolute inset-0 h-full w-full object-cover" style="object-position:center 22%" />
+      <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(10,10,10,0.62) 0%,rgba(10,10,10,0.86) 100%)"></div>
+      <div class="pc-pane-spine absolute inset-0 z-[3] flex items-center justify-center">
+        <span class="whitespace-nowrap font-display text-2xl uppercase tracking-[0.06em] text-white [writing-mode:vertical-rl] sm:text-4xl">Pourquoi</span>
+      </div>
+      <div class="pc-pane-body relative z-[2] flex min-h-[88vh] flex-col justify-end p-8 sm:p-14">
+        <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Pourquoi</div>
+        <h2 class="max-w-[18ch] font-display text-3xl uppercase leading-[0.98] tracking-tight sm:text-5xl">
+          Le problème n'est pas l'ambition. C'est le cadre de décision.
+        </h2>
+        <p class="mt-6 max-w-[46ch] font-light leading-relaxed text-white/74">
+          La croissance ne cale pas faute de marché. Elle cale parce que les décisions se prennent à l'instinct, sans indicateurs, et passent toutes par une seule personne.
+        </p>
+        <div class="mt-8 flex flex-col">
+          {['Tout remonte au fondateur', 'Aucun indicateur auquel l\'équipe se fie', 'On recrute au ressenti', 'Des plans qui ne passent pas le mois'].map((s) => (
+            <span class="border-t border-white/16 py-3.5 font-light text-white/66">{s}</span>
+          ))}
+          <span class="border-t border-white/16"></span>
+        </div>
+      </div>
+    </div>
+    <div class="pc-pane pc-pane-b relative overflow-hidden">
+      <img src={images.hero3.src} alt="" class="absolute inset-0 h-full w-full object-cover" style="object-position:center 22%" />
+      <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(10,10,10,0.58) 0%,rgba(10,10,10,0.88) 100%)"></div>
+      <div class="pc-pane-spine absolute inset-0 z-[3] flex items-center justify-center">
+        <span class="whitespace-nowrap font-display text-2xl uppercase tracking-[0.06em] text-white [writing-mode:vertical-rl] sm:text-4xl">Comment</span>
+      </div>
+      <div class="pc-pane-body relative z-[2] flex min-h-[88vh] flex-col justify-end p-8 sm:p-14">
+        <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Comment</div>
+        <h2 class="max-w-[18ch] font-display text-3xl uppercase leading-[0.98] tracking-tight sm:text-5xl">
+          Un système appliqué à votre entreprise, pas un cours
+        </h2>
+        <p class="mt-6 max-w-[46ch] font-light leading-relaxed text-white/74">
+          Vous travaillez sur vos propres chiffres à chaque session, avec un expert à vos côtés, en français comme en arabe.
+        </p>
+        <div class="mt-8 flex flex-col">
+          {[
+            ['01', 'Appliqué, pas théorique'],
+            ['02', 'Douze dirigeants par promotion'],
+            ['03', 'Animé en français et en arabe'],
+            ['04', 'Des praticiens, pas des théoriciens']
+          ].map(([n, s]) => (
+            <span class="flex gap-4.5 border-t border-white/16 py-3.5 font-light text-white/66">
+              <b class="pt-0.5 text-xs font-bold tracking-[0.14em] text-acc">{n}</b> {s}
+            </span>
+          ))}
+          <span class="border-t border-white/16"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Éprouvé sur le terrain + partners -->
+  <section class="relative overflow-hidden border-b border-white/10 px-5 py-20 sm:px-8 sm:py-28">
+    <div class="pointer-events-none absolute right-[14%] top-[-22%] z-[1] h-[min(780px,86vw)] w-[min(780px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <div class="relative z-[2] mx-auto max-w-[1320px]">
+      <div data-reveal class="mb-14 grid gap-10 sm:grid-cols-2 sm:gap-16">
+        <div>
+          <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Éprouvé sur le terrain</div>
+          <h2 class="max-w-[17ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-6xl">
+            Depuis l'intérieur des entreprises mondiales
+          </h2>
+        </div>
+        <div>
+          <p class="font-light leading-relaxed text-white/70">
+            Ces mécanismes, locaux comme internationaux, sont aujourd'hui utilisés par les plus grandes entreprises du marché grâce aux formations de Salim El Djazairi.
+          </p>
+          <p class="mt-5 font-light leading-relaxed text-white/60">
+            Ces formations vous transmettent l'expérience pratique et les systèmes éprouvés sur lesquels les grandes entreprises se sont appuyées pour leur croissance, leur efficacité et leur rentabilité durable — afin que vous puissiez, vous aussi, les appliquer dans votre entreprise avec simplicité et professionnalisme.
+          </p>
+        </div>
+      </div>
+
+      <div class="overflow-hidden border-y border-white/10 py-9">
+        <div class="flex w-max animate-[labeeb-logos_38s_linear_infinite] items-center gap-14 sm:gap-24">
+          {[...partners, ...partners].map((p) => (
+            <img src={p.src} alt="Logo partenaire" width="120" height="60" class="h-8 w-auto flex-none object-contain opacity-50 grayscale transition-all duration-500 hover:opacity-100 hover:grayscale-0 sm:h-11" />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Formateurs -->
+  <section class="relative overflow-hidden border-b border-white/10 px-5 py-20 sm:px-8 sm:py-28">
+    <div class="pointer-events-none absolute right-[6%] top-[-16%] z-[1] h-[min(860px,86vw)] w-[min(860px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <div class="relative z-[2] mx-auto max-w-[1320px]">
+      <div data-reveal class="mb-14 flex flex-wrap items-end justify-between gap-9">
+        <div>
+          <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Les formateurs</div>
+          <h2 class="max-w-[18ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-6xl">
+            Des praticiens, pas des théoriciens
+          </h2>
+        </div>
+        <p class="max-w-[42ch] font-light leading-relaxed text-white/60">
+          Chaque intervenant a dirigé, vendu, recruté et échoué avant d'enseigner. C'est la condition pour animer chez Labeeb.
+        </p>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {teachers.map((t) => (
+          <article data-reveal="media" class="flex flex-col gap-4.5">
+            <div class="aspect-3/4 overflow-hidden bg-white/5">
+              <img
+                src={t.image.src}
+                alt={t.name}
+                class="h-full w-full object-cover transition-all duration-700 hover:grayscale-0 hover:scale-[1.06]"
+                style={`object-position:${t.pos};filter:grayscale(1) brightness(0.9)`}
+              />
+            </div>
+            <div>
+              <div class="mb-2.5 text-[11px] font-bold uppercase tracking-[0.24em] text-acc">{t.domain}</div>
+              <div class="font-display text-xl uppercase leading-none tracking-tight">{t.name}</div>
+              <div class="mt-2 text-sm font-light text-white/50">{t.role}</div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Six façons d'avancer -->
+  <section class="relative overflow-hidden border-b border-white/10 px-5 py-20 sm:px-8 sm:py-28">
+    <div class="pointer-events-none absolute left-[-6%] top-[22%] z-[1] h-[min(900px,86vw)] w-[min(900px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <div class="relative z-[2] mx-auto max-w-[1320px]">
+      <div data-reveal class="mb-4 grid items-end gap-9 sm:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Les formations</div>
+          <h2 class="max-w-[15ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-6xl">
+            Six façons d'avancer
+          </h2>
+        </div>
+        <p class="font-light leading-relaxed text-white/60">
+          Du parcours en ligne au cercle fermé, de l'étude de marché au profilage : choisissez le format, la méthode reste la même.
+        </p>
+      </div>
+
+      {services.map((s, i) => (
+        <article class="grid min-h-[min(88vh,860px)] items-stretch gap-10 border-t border-white/10 py-12 sm:grid-cols-2 sm:gap-16 sm:py-14">
+          <div data-reveal="media" class:list={{ 'sm:order-2': i % 2 === 1 }}>
+            <Photo label={s.slot} class="h-full min-h-[min(72vh,700px)] border border-white/10 bg-white/5" />
+          </div>
+          <div data-reveal class:list={['flex flex-col justify-center', i % 2 === 1 ? 'sm:order-1' : '']}>
+            <div class="mb-5 flex items-baseline gap-5">
+              <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{s.n}</span>
+              <span class="h-px flex-1 bg-white/12"></span>
+              {s.badge && <span class="whitespace-nowrap rounded-full border border-white/25 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">{s.badge}</span>}
+            </div>
+            <h3 class="max-w-[16ch] font-display text-3xl uppercase leading-[0.96] tracking-tight sm:text-4xl">{s.title}</h3>
+            <p class="mt-6 max-w-[46ch] font-light leading-relaxed text-white/70">{s.body}</p>
+            <div class="mt-7 flex flex-wrap gap-7">
+              {s.meta.map(([label, value]) => (
+                <div>
+                  <div class="mb-2 text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">{label}</div>
+                  <div class="text-[15px] font-semibold">{value}</div>
+                </div>
+              ))}
+            </div>
+            <a href={s.href} class="mt-9 inline-flex w-fit items-center gap-3.5 border-b border-white/30 pb-2.5 text-[11px] font-bold uppercase tracking-[0.2em] hover:border-acc hover:text-acc">
+              {s.cta} <span>→</span>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- Travel parallax teaser -->
+  <div style="background:linear-gradient(180deg,rgba(11,63,69,0) 0%,rgba(11,63,69,0.4) 14%,rgba(12,74,78,0.85) 38%,rgba(12,74,78,0.8) 60%,rgba(6,32,31,0.45) 84%,rgba(6,32,31,0) 100%)">
+    <section data-plane-hero class="relative h-[260vh]">
+      <div class="sticky top-0 h-screen overflow-hidden">
+        <div data-plane-sea class="absolute -inset-x-[6%] -inset-y-[8%] z-[1] will-change-transform">
+          <img src={images.travelIsland.src} alt="" class="h-full w-full object-cover" />
+        </div>
+        <img
+          data-plane
+          src={images.travelPlane.src}
+          alt=""
+          class="pointer-events-none absolute left-1/2 top-1/2 z-[3] w-[min(30vw,330px)] opacity-0 will-change-transform"
+        />
+        <div class="absolute inset-0 z-[4] flex flex-col justify-center px-5 sm:px-8">
+          <div data-plane-copy class="mx-auto w-full max-w-[1320px] opacity-0 will-change-transform">
+            <div class="mb-5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Labeeb Travel</div>
+            <h2 class="max-w-[15ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-7xl">
+              Le business se décide ailleurs
+            </h2>
+            <p class="mt-6 max-w-[46ch] font-light leading-relaxed text-white/80">
+              Immersions à l'étranger pour dirigeants : visites d'entreprises, networking VIP et développement personnel, loin du bureau et de ses urgences.
+            </p>
+            <div class="mt-9 flex flex-wrap items-center gap-4.5">
+              <span class="text-xs font-bold uppercase tracking-[0.2em] text-white/80">Destinations à confirmer</span>
+              <span class="h-4 w-px bg-white/25"></span>
+              <span class="text-xs font-bold uppercase tracking-[0.2em] text-white/80">Places limitées</span>
+              <Button href={path('travel', locale)} variant="solid">Être informé</Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- "Un voyage d'affaires" + "Ils en parlent" stay in the ocean-teal atmosphere the Travel hero opened,
+       fading back to the homepage's black before the WhatsApp screenshots section -->
+  <div style="background:linear-gradient(180deg,#062522 0%,#062522 88%,rgba(6,37,34,0) 100%)">
+  <section class="px-5 py-20 sm:px-8 sm:py-32">
+      <div class="mx-auto max-w-[1320px]">
+        <div data-reveal class="mb-16 grid items-end gap-9 border-b border-white/12 pb-16 sm:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Labeeb Travel</div>
+            <h2 class="max-w-[17ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-6xl">
+              Un voyage d'affaires, pas un séminaire au soleil
+            </h2>
+          </div>
+          <p class="font-light leading-relaxed text-white/70">
+            Une semaine hors de son marché, en groupe restreint, pour observer d'autres façons de diriger et rentrer avec des décisions prises.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-8 py-12 sm:grid-cols-4">
+          {[['Durée', '7 jours'], ['Groupe', '12 dirigeants'], ['Langues', 'FR · AR'], ['Édition', 'Sur demande']].map(([label, value]) => (
+            <div>
+              <div class="mb-3 text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">{label}</div>
+              <div class="font-display text-2xl uppercase leading-none sm:text-3xl">{value}</div>
+            </div>
+          ))}
+        </div>
+
+        <div class="grid gap-14 sm:grid-cols-[1.25fr_0.75fr]">
+          <div data-reveal>
+            <div class="mb-3 text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">Le programme</div>
+            {[
+              ['01', 'Visites d\'entreprises', 'Deux à quatre sociétés locales par séjour, avec accès aux dirigeants et à leurs opérations.'],
+              ['02', 'Sessions de travail', "Un atelier par jour animé par un expert Labeeb, appliqué à vos propres dossiers."],
+              ['03', 'Rencontres privées', "Dîners et introductions auprès d'entrepreneurs et opérateurs de la place."],
+              ['04', 'Logistique intégrale', "Hôtel, transferts, interprétariat et programme. Vous n'avez qu'à venir."]
+            ].map(([n, title, body]) => (
+              <div class="grid grid-cols-[52px_minmax(0,1fr)] items-baseline gap-6.5 border-t border-white/10 py-7.5">
+                <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-acc">{n}</span>
+                <div>
+                  <div class="font-display text-2xl uppercase leading-tight tracking-tight">{title}</div>
+                  <p class="mt-3 max-w-[52ch] text-[15px] font-light leading-relaxed text-white/60">{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div data-reveal>
+            <div class="mb-3 text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">Ce que vous rapportez</div>
+            {[
+              ['Des modèles à copier', 'Des façons de gérer, vendre et recruter transposables dès le retour.'],
+              ['Un réseau hors frontières', 'Fournisseurs, partenaires et pairs rencontrés sur place.'],
+              ['Du recul', "Sept jours loin de l'opérationnel suffisent à trancher ce qui traîne."],
+              ['Un groupe qui reste', "Les promotions continuent d'échanger longtemps après le retour."]
+            ].map(([title, body]) => (
+              <div class="border-t border-white/10 py-6.5">
+                <div class="text-[17px] font-semibold">{title}</div>
+                <p class="mt-2 text-[15px] font-light leading-relaxed text-white/60">{body}</p>
+              </div>
+            ))}
+            <a href={path('travel', locale)} class="mt-9 inline-flex items-center gap-3.5 rounded-full border border-white/30 px-7 py-4.5 text-[11px] font-bold uppercase tracking-[0.2em] hover:border-acc hover:text-acc">
+              Demander le programme <span>→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- Voice testimonials -->
+  <section class="relative overflow-hidden border-b border-white/10 px-5 pb-8 pt-20 sm:px-8 sm:pt-28">
+    <div class="pointer-events-none absolute left-[4%] top-[-14%] z-[1] h-[min(900px,86vw)] w-[min(900px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <div class="relative z-[2] mx-auto max-w-[1320px]">
+      <div data-reveal class="mb-2 grid items-end gap-9 sm:grid-cols-[1.1fr_0.9fr]">
+        <div>
+          <div class="mb-6 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Ils en parlent</div>
+          <h2 class="max-w-[15ch] font-display text-4xl uppercase leading-[0.96] tracking-tight text-balance sm:text-6xl">Écoutez-les le dire</h2>
+        </div>
+        <p class="font-light leading-relaxed text-white/60">
+          Les retours nous arrivent en note vocale. Nous les publions tels quels, sans montage ni reformulation.
+        </p>
+      </div>
+      <div class="mt-10">
+        {voices.map((v) => (
+          <article class="border-t border-white/10 py-11">
+            <p class="max-w-[44ch] text-xl font-light leading-snug text-white/90 text-balance sm:text-2xl">{v.quote}</p>
+            <div class="mt-5 flex flex-wrap items-center gap-3.5">
+              <span class="text-sm font-semibold">{v.name}</span>
+              <span class="h-3 w-px bg-white/20"></span>
+              <span class="text-[13px] font-light text-white/50">{v.detail}</span>
+            </div>
+          </article>
+        ))}
+        <div class="border-t border-white/10"></div>
+      </div>
+    </div>
+  </section>
+  </div>
+
+  <!-- WhatsApp screenshots -->
+  <section class="border-b border-white/10 px-5 py-16 sm:px-8 sm:py-20">
+    <div class="mx-auto max-w-[1320px]">
+      <div class="mb-11 flex flex-wrap items-baseline justify-between gap-8 border-b border-white/10 pb-9">
+        <h3 class="font-display text-2xl uppercase leading-none tracking-tight sm:text-4xl">Messages reçus, non retouchés</h3>
+        <span class="text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">WhatsApp · 2026</span>
+      </div>
+      <div class="grid max-w-[1000px] grid-cols-2 gap-8 sm:grid-cols-3">
+        <figure class="flex flex-col gap-4">
+          <Photo label="Capture 1" class="aspect-[9/16] rounded bg-white/5" />
+          <figcaption class="text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">Après le GMS</figcaption>
+        </figure>
+        <figure class="flex flex-col gap-4">
+          <Photo label="Capture 2" class="aspect-[9/16] rounded bg-white/5" />
+          <figcaption class="text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">Mastermind 2026</figcaption>
+        </figure>
+        <figure class="flex flex-col gap-4">
+          <Photo label="Capture 3" class="aspect-[9/16] rounded bg-white/5" />
+          <figcaption class="text-[10px] font-bold uppercase tracking-[0.26em] text-white/50">Labeeb Travel</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="relative overflow-hidden px-5 py-20 sm:px-8 sm:py-28">
+    <div class="pointer-events-none absolute bottom-[-12%] right-[2%] z-[1] h-[min(820px,86vw)] w-[min(820px,86vw)] rounded-full blur-2xl" style="background:radial-gradient(circle,rgba(46,230,166,0.16) 0%,transparent 64%)"></div>
+    <div class="relative z-[2] mx-auto max-w-[1000px]">
+      <div class="mb-11">
+        <div class="mb-4.5 text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Questions fréquentes</div>
+        <h2 class="max-w-[18ch] font-display text-4xl uppercase leading-[0.96] tracking-tight sm:text-6xl">Ce qu'on nous demande</h2>
+      </div>
+      <Faq items={faqItems} />
+      <div id="formulaire-appel" class="mt-11 flex flex-wrap items-center gap-4.5">
+        <span class="font-light text-white/70">Une autre question ?</span>
+        <Button href={path('contact', locale)} variant="solid">Poser votre question</Button>
+      </div>
+    </div>
+  </section>
+</Base>
