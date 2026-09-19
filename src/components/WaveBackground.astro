@@ -1,0 +1,26 @@
+---
+/**
+ * Ocean wave motif for the Travel theme: flat, layered dark wave silhouettes
+ * (not oscillating lines), meant to run once as a single continuous
+ * backdrop behind an entire stretch of sections (not repeated per section).
+ * Uses preserveAspectRatio="none" so it stretches to fill whatever height
+ * its wrapping container ends up being, rather than tiling or cropping.
+ */
+const { class: className = '', opacity = 1 } = Astro.props;
+---
+
+<svg
+  class={`pointer-events-none select-none ${className}`}
+  style={`opacity:${opacity}`}
+  viewBox="0 0 1200 2400"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <rect width="1200" height="2400" fill="#062522" />
+
+  <path fill="#000000" opacity="0.28" d="M 0,220 C 180,120 380,90 620,150 C 820,200 980,80 1200,40 L 1200,520 C 980,560 820,680 620,630 C 380,570 180,610 0,700 Z" />
+  <path fill="#000000" opacity="0.20" d="M 0,560 C 220,700 420,860 680,780 C 900,715 1040,790 1200,740 L 1200,1180 C 1040,1230 900,1155 680,1220 C 420,1300 220,1140 0,1260 Z" />
+  <path fill="#000000" opacity="0.28" d="M 0,1220 C 260,1160 460,1260 720,1210 C 920,1172 1060,1230 1200,1200 L 1200,1650 C 1060,1680 920,1622 720,1660 C 460,1710 260,1610 0,1670 Z" />
+  <path fill="#000000" opacity="0.20" d="M 0,1780 C 220,1900 460,2040 700,1960 C 900,1895 1050,1970 1200,1920 L 1200,2400 L 0,2400 Z" />
+</svg>

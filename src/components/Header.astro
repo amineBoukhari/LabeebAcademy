@@ -8,7 +8,7 @@ const t = useTranslations(locale);
 const otherLocale = locale === 'fr' ? 'ar' : 'fr';
 
 const services = [
-  { key: 'online', label: t('nav.online'), href: path('online', locale), note: t('nav.coursesCount') },
+  { key: 'online', label: t('nav.online'), href: path('online', locale) },
   { key: 'presential', label: t('nav.presential'), href: path('presential', locale) },
   { key: 'mastermind', label: t('nav.mastermind'), href: '#' },
   { key: 'consulting', label: t('nav.consulting'), href: `${path('contact', locale)}?sujet=consulting` },
@@ -45,7 +45,13 @@ const noMarker = '[&::-webkit-details-marker]:hidden [&::marker]:content-none';
         </summary>
         <div class="absolute -left-[18px] top-[calc(100%+16px)] z-30 flex min-w-[260px] flex-col border border-white/12 bg-[#0e0e0e] p-2.5 shadow-[0_34px_70px_-34px_rgba(0,0,0,0.95)]">
           {services.map((s) => (
-            <a href={s.href} class="flex items-baseline justify-between gap-3.5 px-3.5 py-3 text-[12px] font-semibold tracking-[0.08em] text-acc hover:bg-white/5">
+            <a
+              href={s.href}
+              class:list={[
+                'flex items-baseline justify-between gap-3.5 px-3.5 py-3 text-[12px] tracking-[0.08em] hover:bg-white/5',
+                routeKey === s.key ? 'font-semibold text-acc' : 'font-medium text-white'
+              ]}
+            >
               {s.label}
               {s.note && <span class="text-[10px] font-medium tracking-[0.14em] text-white/40">{s.note}</span>}
             </a>

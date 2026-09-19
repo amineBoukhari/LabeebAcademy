@@ -4,7 +4,6 @@
   --color-bg: #0a0a0a;
   --color-ink: #ffffff;
   --color-acc: #2ee6a6;
-  --color-gold: #c9a961;
   --color-travel-deep: #062522;
   --color-travel-mid: #123a2c;
 
@@ -60,68 +59,90 @@
 }
 
 @layer components {
-  /* Pourquoi/Comment hover-expand: collapsed pane is a 92px sliver showing only
-     its vertical spine label; hovering it swaps dominance with the other pane. */
+  /* Pourquoi/Comment: on mobile each pane is a full-width block, toggled by a button pair
+     (see [data-pc-toggle] / pc-toggle.js) instead of the desktop hover-sliver split below. */
   .pc-split {
-    display: grid;
-    grid-template-columns: 92px 1fr;
-    transition: grid-template-columns 1100ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .pc-split:has(.pc-pane-a:hover) {
-    grid-template-columns: 1fr 92px;
+    display: block;
   }
   .pc-pane {
-    transition: filter 1100ms cubic-bezier(0.22, 1, 0.36, 1);
-    filter: grayscale(1) brightness(0.55);
-    cursor: pointer;
+    display: none;
   }
-  .pc-pane-b {
-    filter: none;
-  }
-  .pc-split:has(.pc-pane-a:hover) .pc-pane-a {
-    filter: none;
-  }
-  .pc-split:has(.pc-pane-a:hover) .pc-pane-b {
-    filter: grayscale(1) brightness(0.55);
-  }
-  .pc-pane-body,
+  /* opacity, not display: .pc-pane-spine also carries the `flex` utility, which (being in
+     Tailwind's utilities layer) always wins a `display` fight against this components-layer rule. */
   .pc-pane-spine {
-    transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .pc-pane-a .pc-pane-body {
     opacity: 0;
     pointer-events: none;
   }
-  .pc-pane-a .pc-pane-spine {
-    opacity: 1;
-  }
-  .pc-pane-b .pc-pane-body {
-    opacity: 1;
-  }
-  .pc-pane-b .pc-pane-spine {
-    opacity: 0;
-  }
-  .pc-split:has(.pc-pane-a:hover) .pc-pane-a .pc-pane-body {
+  .pc-pane-body {
     opacity: 1;
     pointer-events: auto;
   }
-  .pc-split:has(.pc-pane-a:hover) .pc-pane-a .pc-pane-spine {
-    opacity: 0;
-  }
-  .pc-split:has(.pc-pane-a:hover) .pc-pane-b .pc-pane-body {
-    opacity: 0;
-    pointer-events: none;
-  }
-  .pc-split:has(.pc-pane-a:hover) .pc-pane-b .pc-pane-spine {
-    opacity: 1;
+  .pc-split[data-pc-active='a'] .pc-pane-a,
+  .pc-split[data-pc-active='b'] .pc-pane-b {
+    display: block;
   }
 
-  /* Arch hero photo: grayscale by default, revealed in color on hover. */
-  .arch-photo {
-    filter: grayscale(1) contrast(1.15) brightness(0.88);
-    transition: opacity 900ms ease, filter 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* sm and up: collapsed pane is a 92px sliver showing only its vertical spine label;
+     hovering it swaps dominance with the other pane. */
+  @media (min-width: 640px) {
+    .pc-split {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      transition: grid-template-columns 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .pc-split:has(.pc-pane-a:hover) {
+      grid-template-columns: 1fr 92px;
+    }
+    .pc-pane {
+      display: block;
+      transition: filter 1100ms cubic-bezier(0.22, 1, 0.36, 1);
+      filter: grayscale(1) brightness(0.55);
+      cursor: pointer;
+    }
+    .pc-pane-b {
+      filter: none;
+    }
+    .pc-split:has(.pc-pane-a:hover) .pc-pane-a {
+      filter: none;
+    }
+    .pc-split:has(.pc-pane-a:hover) .pc-pane-b {
+      filter: grayscale(1) brightness(0.55);
+    }
+    .pc-pane-body,
+    .pc-pane-spine {
+      transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .pc-pane-a .pc-pane-body {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .pc-pane-a .pc-pane-spine {
+      opacity: 1;
+    }
+    .pc-pane-b .pc-pane-body {
+      opacity: 1;
+    }
+    .pc-pane-b .pc-pane-spine {
+      opacity: 0;
+    }
+    .pc-split:has(.pc-pane-a:hover) .pc-pane-a .pc-pane-body {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .pc-split:has(.pc-pane-a:hover) .pc-pane-a .pc-pane-spine {
+      opacity: 0;
+    }
+    .pc-split:has(.pc-pane-a:hover) .pc-pane-b .pc-pane-body {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .pc-split:has(.pc-pane-a:hover) .pc-pane-b .pc-pane-spine {
+      opacity: 1;
+    }
   }
-  .arch-stage:hover .arch-photo {
-    filter: none;
+
+  /* Arch hero photo: full color. */
+  .arch-photo {
+    transition: opacity 900ms ease;
   }
 }

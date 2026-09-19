@@ -17,7 +17,7 @@ const { locale = 'fr' } = Astro.props;
         <div class="mb-6 flex items-center gap-3.5">
           <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Notre équipe</span>
           <span class="h-px w-9 bg-acc/50"></span>
-          <span class="font-arabic text-2xl leading-none text-gold/90" dir="rtl">فريقنا</span>
+          <span class="font-arabic text-2xl leading-none text-acc/90" dir="rtl">فريقنا</span>
         </div>
         <h1 class="max-w-[14ch] font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl lg:text-8xl">
           Ceux qui animent
@@ -31,14 +31,14 @@ const { locale = 'fr' } = Astro.props;
 
   <section
     class="border-b border-white/10 px-5 py-14 sm:px-8 sm:py-20"
-    style="background:radial-gradient(70% 100% at 88% 0%,rgba(201,169,97,0.13) 0%,rgba(10,10,10,0) 68%)"
+    style="background:radial-gradient(70% 100% at 88% 0%,rgba(46,230,166,0.13) 0%,rgba(10,10,10,0) 68%)"
   >
     <div class="mx-auto grid max-w-[1320px] items-center gap-10 sm:grid-cols-2 sm:gap-16">
       <div class="aspect-4/5 overflow-hidden border border-white/10 bg-white/[0.04]">
         <img src={images.founderAroubi.src} alt={site.founder.name} class="h-full w-full object-cover" style="object-position:45% 22%" />
       </div>
       <div>
-        <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-gold">Fondateur</div>
+        <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-acc">Fondateur</div>
         <h2 class="font-display text-4xl uppercase leading-[0.94] tracking-tight sm:text-5xl">{site.founder.name}</h2>
         <div class="mt-3.5 text-[13px] font-semibold uppercase tracking-[0.16em] text-acc">{site.founder.domain}</div>
         <p class="mt-6 max-w-[48ch] font-light leading-relaxed text-white/72">{site.founder.bio}</p>
@@ -98,7 +98,7 @@ const { locale = 'fr' } = Astro.props;
       <div>
         <div class="mb-5 flex items-center gap-3.5">
           <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">Rejoindre l'équipe</span>
-          <span class="font-arabic text-xl leading-none text-gold/90" dir="rtl">لبيـــب</span>
+          <span class="font-arabic text-xl leading-none text-acc/90" dir="rtl">لبيـــب</span>
         </div>
         <h2 class="max-w-[17ch] font-display text-4xl uppercase leading-[0.98] tracking-tight text-balance sm:text-6xl">
           Un domaine manque, le vôtre peut-être

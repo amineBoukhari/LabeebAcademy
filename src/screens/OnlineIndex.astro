@@ -22,7 +22,7 @@ const { locale = 'fr' } = Astro.props;
         <div class="mb-6 flex items-center gap-3.5">
           <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-acc">{onlineIndex.eyebrow}</span>
           <span class="h-px w-9 bg-acc/50"></span>
-          <span class="font-arabic text-2xl leading-none text-gold/90" dir="rtl">{onlineIndex.arabic}</span>
+          <span class="font-arabic text-2xl leading-none text-acc/90" dir="rtl">{onlineIndex.arabic}</span>
         </div>
         <h1 class="font-display text-5xl uppercase leading-[0.93] tracking-tight text-balance sm:text-7xl lg:text-8xl">
           {onlineIndex.title}
@@ -45,14 +45,14 @@ const { locale = 'fr' } = Astro.props;
   {formations.map((f, i) => (
     <section
       class="border-b border-white/10 px-5 py-14 sm:px-8 sm:py-20"
-      style={i === 0 ? 'background:radial-gradient(70% 100% at 85% 0%,rgba(201,169,97,0.13) 0%,rgba(10,10,10,0) 70%)' : undefined}
+      style={i === 0 ? 'background:radial-gradient(70% 100% at 85% 0%,rgba(46,230,166,0.13) 0%,rgba(10,10,10,0) 70%)' : undefined}
     >
       <div class="mx-auto grid max-w-[1320px] items-center gap-8 sm:grid-cols-2 sm:gap-12">
         <div class:list={{ 'sm:order-2': i === 0 }}>
           <Photo label={f.title} class="aspect-4/3 border border-white/10 bg-white/[0.04]" />
         </div>
         <div class:list={{ 'sm:order-1': i === 0 }}>
-          <div class:list={["mb-5 text-[10px] font-bold uppercase tracking-[0.28em]", f.flagship ? 'text-gold' : 'text-acc']}>
+          <div class="mb-5 text-[10px] font-bold uppercase tracking-[0.28em] text-acc">
             {f.eyebrow}
           </div>
           <h2 class="max-w-[18ch] font-display text-3xl uppercase leading-[0.94] tracking-tight text-balance sm:text-5xl">

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Button from '../components/Button.astro';
 import Photo from '../components/Photo.astro';
 import Faq from '../components/Faq.astro';
+import WaveBackground from '../components/WaveBackground.astro';
 import { images } from '../assets/index.js';
 import { site } from '../data/site.js';
 import { path } from '../i18n/utils.js';
@@ -114,6 +115,9 @@ const faqItems = [
       >
         Academy
       </div>
+      <h1 class="animate-labeeb-up mx-auto mt-6 max-w-[42ch] text-[15px] font-light leading-relaxed text-white/60 sm:mt-8 sm:text-lg md:max-w-[60ch] md:text-xl">
+        Labeeb Academy forme les dirigeants algériens à structurer leur entreprise et à décider avec un système, pas à l'instinct.
+      </h1>
     </div>
 
     <div data-hero-carousel class="relative mx-auto mt-7 flex max-w-[1320px] justify-center px-5 sm:mt-6 sm:px-12 lg:px-24">
@@ -150,13 +154,13 @@ const faqItems = [
 
       <!-- word + dots sit OUTSIDE the arch's overflow-hidden box, so the giant word can bleed past its edges.
            Sized from viewport WIDTH on mobile (not height) so long words never overflow a narrow screen. -->
-      <h1
+      <p
         data-hero-word
-        class="pointer-events-none absolute inset-x-0 bottom-[18%] z-[5] text-center font-display text-[clamp(34px,11vw,64px)] uppercase leading-[0.86] tracking-tight sm:bottom-[20%] sm:text-[min(19vh,230px)] sm:leading-[0.82]"
+        class="pointer-events-none absolute inset-x-0 bottom-[18%] z-[5] text-center font-display text-[clamp(46px,15vw,80px)] uppercase leading-[0.86] tracking-tight sm:bottom-[20%] sm:text-[min(19vh,230px)] sm:leading-[0.82]"
         style="mix-blend-mode:difference;color:#fff"
       >
         L'exception
-      </h1>
+      </p>
       <div class="absolute inset-x-0 bottom-1 z-[8] flex justify-center gap-1 sm:bottom-2.5 sm:gap-2.5">
         {[0, 1, 2].map((n) => (
           <button
@@ -199,8 +203,17 @@ const faqItems = [
     </p>
   </section>
 
-  <!-- Pourquoi / Comment: hover-expand, "Comment" dominant by default -->
-  <section class="pc-split h-[700px] border-b border-white/10">
+  <!-- Pourquoi / Comment: full-width toggle on mobile, hover-expand sliver split from sm: up.
+       "Comment" dominant by default on both. -->
+  <section class="pc-split border-b border-white/10 sm:h-[700px]" data-pc-active="b">
+    <div class="flex border-b border-white/10 bg-bg sm:hidden">
+      <button type="button" data-pc-toggle="a" aria-pressed="false" class="flex-1 border-b-2 border-transparent py-4 text-center text-[11px] font-bold uppercase tracking-[0.28em] text-white/50 transition-colors data-[active=true]:border-acc data-[active=true]:text-white">
+        Pourquoi
+      </button>
+      <button type="button" data-pc-toggle="b" aria-pressed="true" data-active="true" class="flex-1 border-b-2 border-transparent py-4 text-center text-[11px] font-bold uppercase tracking-[0.28em] text-white/50 transition-colors data-[active=true]:border-acc data-[active=true]:text-white">
+        Comment
+      </button>
+    </div>
     <div class="pc-pane pc-pane-a relative overflow-hidden">
       <img src={images.hero2.src} alt="" class="absolute inset-0 h-full w-full object-cover" style="object-position:center 22%" />
       <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(10,10,10,0.62) 0%,rgba(10,10,10,0.86) 100%)"></div>
@@ -369,12 +382,15 @@ const faqItems = [
   </section>
 
   <!-- Travel parallax teaser -->
-  <div style="background:linear-gradient(180deg,rgba(11,63,69,0) 0%,rgba(11,63,69,0.4) 14%,rgba(12,74,78,0.85) 38%,rgba(12,74,78,0.8) 60%,rgba(6,32,31,0.45) 84%,rgba(6,32,31,0) 100%)">
+  <div>
     <section data-plane-hero class="relative h-[260vh]">
       <div class="sticky top-0 h-screen overflow-hidden">
         <div data-plane-sea class="absolute -inset-x-[6%] -inset-y-[8%] z-[1] will-change-transform">
           <img src={images.travelIsland.src} alt="" class="h-full w-full object-cover" />
         </div>
+        <!-- fades the homepage's black theme into the ocean photo at the top, and the photo into the
+             travel section's solid teal (#062522) at the bottom, so neither edge is a hard cut. -->
+        <div class="pointer-events-none absolute inset-0 z-[2]" style="background:linear-gradient(180deg,#0a0a0a 0%,rgba(10,10,10,0) 24%,rgba(6,37,34,0) 76%,#062522 100%)"></div>
         <img
           data-plane
           src={images.travelPlane.src}
@@ -404,8 +420,9 @@ const faqItems = [
 
   <!-- "Un voyage d'affaires" + "Ils en parlent" stay in the ocean-teal atmosphere the Travel hero opened,
        fading back to the homepage's black before the WhatsApp screenshots section -->
-  <div style="background:linear-gradient(180deg,#062522 0%,#062522 88%,rgba(6,37,34,0) 100%)">
-  <section class="px-5 py-20 sm:px-8 sm:py-32">
+  <div class="relative overflow-hidden" style="background:linear-gradient(180deg,#062522 0%,#062522 88%,rgba(6,37,34,0) 100%)">
+  <WaveBackground class="absolute inset-0 h-full w-full" />
+  <section class="relative px-5 py-20 sm:px-8 sm:py-32">
       <div class="mx-auto max-w-[1320px]">
         <div data-reveal class="mb-16 grid items-end gap-9 border-b border-white/12 pb-16 sm:grid-cols-[1.15fr_0.85fr]">
           <div>
@@ -495,6 +512,10 @@ const faqItems = [
       </div>
     </div>
   </section>
+  <!-- fades the wave background + testimonials into the homepage's black before the WhatsApp section.
+       (the wrapper's own background gradient above is fully hidden behind WaveBackground's opaque
+       fill, so the visible fade has to be this overlay instead.) -->
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-40 sm:h-64" style="background:linear-gradient(180deg,rgba(10,10,10,0) 0%,#0a0a0a 100%)"></div>
   </div>
 
   <!-- WhatsApp screenshots -->
